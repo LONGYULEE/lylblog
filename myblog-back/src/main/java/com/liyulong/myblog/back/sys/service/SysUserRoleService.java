@@ -1,16 +1,16 @@
 package com.liyulong.myblog.back.sys.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.liyulong.blog.main.pojo.sys.SysUser;
+import com.liyulong.blog.main.pojo.sys.SysUserRole;
 
 /**
  * <p>
- *  服务类
+ * 用户与角色对应关系 服务类
  * </p>
  *
  * @author lihanlu
  * @since 2020-03-24
  */
-public interface SysUserService extends IService<SysUser> {
+public interface SysUserRoleService extends IService<SysUserRole> {
 
 }

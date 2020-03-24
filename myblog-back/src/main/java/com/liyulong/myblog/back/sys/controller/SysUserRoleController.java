@@ -7,14 +7,14 @@ import org.springframework.stereotype.Controller;
 
 /**
  * <p>
- *  前端控制器
+ * 用户与角色对应关系 前端控制器
  * </p>
  *
  * @author lihanlu
  * @since 2020-03-24
  */
 @Controller
-@RequestMapping("/sys-user")
-public class SysUserController {
+@RequestMapping("/sys-user-role")
+public class SysUserRoleController {
 
 }

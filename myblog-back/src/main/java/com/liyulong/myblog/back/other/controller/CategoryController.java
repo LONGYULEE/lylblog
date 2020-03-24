@@ -1,4 +1,4 @@
-package com.liyulong.myblog.back.sys.controller;
+package com.liyulong.myblog.back.other.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
  * @since 2020-03-24
  */
 @Controller
-@RequestMapping("/sys-user")
-public class SysUserController {
+@RequestMapping("/category")
+public class CategoryController {
 
 }
