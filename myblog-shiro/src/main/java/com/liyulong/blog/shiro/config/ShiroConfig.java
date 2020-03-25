@@ -1,7 +1,9 @@
 package com.liyulong.blog.shiro.config;
 
 import com.liyulong.blog.shiro.JwtFilter;
+import com.liyulong.blog.shiro.MultiRealmAuthenticator;
 import com.liyulong.blog.shiro.MyRealm;
+import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.mgt.SecurityManager;
@@ -37,6 +39,11 @@ public class ShiroConfig {
     @Bean
     public SecurityManager securityManager(){
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+
+        //自定义的模块化领域认证
+        ModularRealmAuthenticator authenticator = new MultiRealmAuthenticator();
+        securityManager.setAuthenticator(authenticator);
+
         securityManager.setRealm(myRealm());
         securityManager.setSessionManager(sessionManager());
 
@@ -45,6 +52,7 @@ public class ShiroConfig {
         DefaultSessionStorageEvaluator sessionStorageEvaluator = new DefaultSessionStorageEvaluator();
         sessionStorageEvaluator.setSessionStorageEnabled(false);
         subjectDAO.setSessionStorageEvaluator(sessionStorageEvaluator);
+
         securityManager.setSubjectDAO(subjectDAO);
 
         return securityManager;

@@ -39,7 +39,7 @@ public class MyExceptionHandler {
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public Result handlerAuthenticationException(AuthenticationException e){
+    public Result handlerRuntimeException(AuthenticationException e){
         Result result = new Result();
         result.setFlag(false);
         result.setCode(2001);

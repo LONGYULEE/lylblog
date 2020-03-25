@@ -1,10 +1,7 @@
 package com.liyulong.blog.shiro;
 
 import com.liyulong.blog.main.common.util.JwtUtil;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -39,13 +36,13 @@ public class MyRealm extends AuthorizingRealm {
         String userId = JwtUtil.getClaim(token,"userId");
 
         if(userId == null){
-            throw new AuthenticationException("token无效，请重新登录");
+            throw new IncorrectCredentialsException("token无效，请重新登录");
         }
 
         if(JwtUtil.verify(token)){
             return new SimpleAuthenticationInfo(token,token,this.getName());
         }
-        throw new AuthenticationException("token无效");
+        throw new IncorrectCredentialsException("token无效");
 
     }
 }
