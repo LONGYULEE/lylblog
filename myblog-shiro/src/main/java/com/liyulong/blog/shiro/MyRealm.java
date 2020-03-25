@@ -39,13 +39,13 @@ public class MyRealm extends AuthorizingRealm {
         String userId = JwtUtil.getClaim(token,"userId");
 
         if(userId == null){
-            throw new AuthenticationException("token invalid");
+            throw new AuthenticationException("token无效，请重新登录");
         }
 
         if(JwtUtil.verify(token)){
             return new SimpleAuthenticationInfo(token,token,this.getName());
         }
-        throw new AuthenticationException("Token expired or incorrect");
+        throw new AuthenticationException("token无效");
 
     }
 }

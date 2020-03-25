@@ -46,4 +46,11 @@ public interface SysUserService extends IService<SysUser> {
      */
     void deleteBatch(Integer[] userIds);
 
+    /**
+     * 添加用户
+     * @param user 用户
+     * @return true
+     */
+    void createUser(SysUser user);
+
 }

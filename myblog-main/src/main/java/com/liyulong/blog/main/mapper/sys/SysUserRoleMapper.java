@@ -17,18 +17,6 @@ import java.util.List;
 @Mapper
 public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
 
-    /**
-     * 查询用户所有的权限
-     * @param userId
-     * @return
-     */
-    List<String> queryAllPerms(Integer userId);
 
-    /**
-     * 查询用户的menuId
-     * @param userId
-     * @return
-     */
-    List<Integer> queryAllMenuId(Integer userId);
 
 }

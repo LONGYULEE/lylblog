@@ -14,4 +14,19 @@
         <result column="status" property="status" />
     </resultMap>
 
+    <!--    查询用户所有的权限-->
+    <select id="queryAllPerms" resultType="java.lang.String">
+--         select sm.perms from sys_user_role sur
+--         left join sys_role_menu srm on sur.role.id = srm.role.id
+--         left join sys_menu sm on srm.menu_id = sm.menu.id
+--         where sur.user.id = #{userId}
+    </select>
+
+    <!--    查询用户所有的菜单Id-->
+    <select id="queryAllMenuId" resultType="java.lang.Integer">
+--         select distinct rm.menu.id from sys_user_role sur
+--         left join sys_role_menu rm on ur.role_id = rm.role_id
+--         where ur.user_id = #{userId}
+    </select>
+
 </mapper>

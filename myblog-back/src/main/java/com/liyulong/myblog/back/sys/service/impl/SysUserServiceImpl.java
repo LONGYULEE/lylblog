@@ -41,4 +41,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public void deleteBatch(Integer[] userIds) {
 
     }
+
+    @Override
+    public void createUser(SysUser user) {
+        baseMapper.insert(user);
+    }
 }

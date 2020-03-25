@@ -1,6 +1,7 @@
 package com.liyulong.blog.main.common.exception;
 
 import com.liyulong.blog.main.common.result.Result;
+import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -30,6 +31,15 @@ public class MyExceptionHandler {
      */
     @ExceptionHandler(RuntimeException.class)
     public Result handlerRuntimeException(RuntimeException e){
+        Result result = new Result();
+        result.setFlag(false);
+        result.setCode(2001);
+        result.setMessage(e.getMessage());
+        return result;
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public Result handlerAuthenticationException(AuthenticationException e){
         Result result = new Result();
         result.setFlag(false);
         result.setCode(2001);
