@@ -1,15 +1,12 @@
 package com.liyulong.blog.shiro.config;
 
-import com.liyulong.blog.shiro.JwtFilter;
-import com.liyulong.blog.shiro.MultiRealmAuthenticator;
+import com.liyulong.blog.shiro.MyFilter;
 import com.liyulong.blog.shiro.MyRealm;
-import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
-import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
@@ -39,22 +36,14 @@ public class ShiroConfig {
     @Bean
     public SecurityManager securityManager(){
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-
-        //自定义的模块化领域认证
-        ModularRealmAuthenticator authenticator = new MultiRealmAuthenticator();
-        securityManager.setAuthenticator(authenticator);
-
         securityManager.setRealm(myRealm());
         securityManager.setSessionManager(sessionManager());
-
         //关闭默认的session
         DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
         DefaultSessionStorageEvaluator sessionStorageEvaluator = new DefaultSessionStorageEvaluator();
         sessionStorageEvaluator.setSessionStorageEnabled(false);
         subjectDAO.setSessionStorageEvaluator(sessionStorageEvaluator);
-
         securityManager.setSubjectDAO(subjectDAO);
-
         return securityManager;
     }
 
@@ -65,44 +54,22 @@ public class ShiroConfig {
      */
     @Bean
     public ShiroFilterFactoryBean factoryBean(){
-//        ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
-//        //必须设置 SecurityManager,Shiro的核心安全接口
-//        factoryBean.setSecurityManager(securityManager());
-//        //设置自定义的Filter
-//        Map<String, Filter> myFilter = new HashMap<>();
-//        myFilter.put("myFilter",new MyFilter());
-//        factoryBean.setFilters(myFilter);
-//
-//        //设置过滤链,配置访问权限 必须是LinkedHashMap，因为它必须保证有序
-//        Map<String,String> filterMap = new LinkedHashMap<>();
-//        // 过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 一定要注意顺序,否则就不好使了
-//        filterMap.put("/admin/sys/login","anon");
-//        filterMap.put("/admin/sys/getKaptcha","anon");
-//        filterMap.put("/admin/sys/logout","anon");
-//        filterMap.put("/admin/**","myFilter");
-//        filterMap.put("/**","anon");
-//        factoryBean.setFilterChainDefinitionMap(filterMap);
-//        return factoryBean;
-
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
         //必须设置 SecurityManager,Shiro的核心安全接口
         factoryBean.setSecurityManager(securityManager());
         //设置自定义的Filter,添加jwt过滤器
         Map<String, Filter> map = new HashMap<>();
-        map.put("jwtFilter",new JwtFilter());
+        map.put("myFilter",new MyFilter());
         factoryBean.setFilters(map);
-
         //设置过滤链,配置访问权限 必须是LinkedHashMap，因为它必须保证有序
         //shiro的拦截器
         Map<String,String> filterMap = new LinkedHashMap<>();
         // 过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 一定要注意顺序,否则就不好使了
         filterMap.put("/admin/sys/getKaptcha","anon");
-        filterMap.put("/admin/sys/logout","anon");
         filterMap.put("/admin/sys/login","anon");
-        filterMap.put("/admin/**","jwtFilter");
+        filterMap.put("/admin/**","myFilter");
         filterMap.put("/**","anon");
         factoryBean.setFilterChainDefinitionMap(filterMap);
-
         return factoryBean;
     }
 
@@ -131,13 +98,6 @@ public class ShiroConfig {
         DefaultAdvisorAutoProxyCreator proxyCreator = new DefaultAdvisorAutoProxyCreator();
         proxyCreator.setProxyTargetClass(true);
         return proxyCreator;
-    }
-
-    @Bean
-    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(){
-        AuthorizationAttributeSourceAdvisor attributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
-        attributeSourceAdvisor.setSecurityManager(securityManager());
-        return attributeSourceAdvisor;
     }
 
 }

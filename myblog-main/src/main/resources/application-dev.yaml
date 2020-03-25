@@ -51,7 +51,7 @@ spring:
 #    连接端口
     port: 6379
 #    连接密码
-    password: root
+    password: 123456
 #    连接池超时时长
     timeout: 6s
     lettuce:

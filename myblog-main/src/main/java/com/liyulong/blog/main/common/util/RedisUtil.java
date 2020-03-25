@@ -1,7 +1,7 @@
 package com.liyulong.blog.main.common.util;
 
-import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -13,16 +13,16 @@ public class RedisUtil {
 
     @Resource
     private RedisTemplate<String,Object> redisTemplate;
-//    @Resource(name = "redisTemplate")
-//    private ValueOperations<String, String> valOpsStr;
-//    @Resource(name = "redisTemplate")
-//    private SetOperations<String, String> valOpsSet;
-//    @Resource(name = "redisTemplate")
-//    private ZSetOperations<String, String> valOpsZSet;
-//    @Resource(name = "redisTemplate")
-//    ListOperations<String, String> valOpsList;
-//    @Resource(name = "redisTemplate")
-//    private HashOperations<String, String, Object> valOpsHash;
+    @Resource
+    private ValueOperations<String, String> valueOperations;
+    @Resource
+    private SetOperations<String, String> setOperations;
+    @Resource
+    private ZSetOperations<String, String> zSetOperations;
+    @Resource
+    private ListOperations<String, String> listOperations;
+    @Resource
+    private HashOperations<String, String, Object> hashOperations;
 
     //设置默认过期时间，单位：秒,两个小时
     public static final long DEFAULT_EXPIRE = 60 * 2 * 60;
@@ -36,7 +36,7 @@ public class RedisUtil {
      * @param expire 过期时间
      */
     public void set(String key,Object value,long expire){
-        redisTemplate.opsForValue().set(key, Objects.requireNonNull(JsonUtil.toJson(value)));
+        valueOperations.set(key, JsonUtil.toJson(value));
         if(expire != NOT_EXPIRE){
             redisTemplate.expire(key,expire, TimeUnit.SECONDS);
         }
@@ -60,7 +60,7 @@ public class RedisUtil {
      * @return
      */
     public <T> T getObj(String key,Class<T> clazz,long expire){
-        String value = (String) redisTemplate.opsForValue().get(key);
+        String value = valueOperations.get(key);
         if(expire != DEFAULT_EXPIRE){
             redisTemplate.expire(key,expire,TimeUnit.SECONDS);
         }
@@ -85,7 +85,7 @@ public class RedisUtil {
      * @return
      */
     public String get(String key,long expire){
-        String value = (String) redisTemplate.opsForValue().get(key);
+        String value = valueOperations.get(key);
         if(expire != DEFAULT_EXPIRE){
             redisTemplate.expire(key,expire,TimeUnit.SECONDS);
         }
@@ -98,7 +98,7 @@ public class RedisUtil {
      * @return
      */
     public String get(String key){
-        return get(key,NOT_EXPIRE);
+        return valueOperations.get(key);
     }
 
     /**
@@ -117,61 +117,61 @@ public class RedisUtil {
         redisTemplate.expire(key,DEFAULT_EXPIRE,TimeUnit.SECONDS);
     }
 
-    /**
-     * 验证key是否存在
-     * @param key
-     * @return
-     */
-    public boolean exists(String key){
-        return redisTemplate.hasKey(key);
-    }
-
-    /**
-     * 取得序列值的下一个
-     *
-     * @param key
-     * @return
-     */
-    public Long getSeqNext(String key) {
-        return redisTemplate.execute((RedisCallback<Long>) connection -> {
-            return connection.incr(key.getBytes());
-
-        });
-    }
-
-    /**
-     * 取得序列值的下一个，增加 value
-     *
-     * @param key
-     * @param value
-     * @return
-     */
-    public Long getSeqNext(String key, long value) {
-        return redisTemplate.execute((RedisCallback<Long>) connection -> {
-            return connection.incrBy(key.getBytes(), value);
-        });
-
-    }
-
-    /**
-     * 设置超时时间
-     *
-     * @param key
-     * @param seconds
-     */
-    public void expire(String key, int seconds) {
-        redisTemplate.expire(key, seconds, TimeUnit.SECONDS);
-    }
-
-    /**
-     * 判断是否缓存了数据
-     * @param key 数据KEY
-     * @return 判断是否缓存了
-     */
-    public boolean exist(String key) {
-        return redisTemplate.execute((RedisCallback<Boolean>) connection -> {
-            return connection.exists(key.getBytes());
-        });
-    }
+//    /**
+//     * 验证key是否存在
+//     * @param key
+//     * @return
+//     */
+//    public boolean exists(String key){
+//        return redisTemplate.hasKey(key);
+//    }
+//
+//    /**
+//     * 取得序列值的下一个
+//     *
+//     * @param key
+//     * @return
+//     */
+//    public Long getSeqNext(String key) {
+//        return redisTemplate.execute((RedisCallback<Long>) connection -> {
+//            return connection.incr(key.getBytes());
+//
+//        });
+//    }
+//
+//    /**
+//     * 取得序列值的下一个，增加 value
+//     *
+//     * @param key
+//     * @param value
+//     * @return
+//     */
+//    public Long getSeqNext(String key, long value) {
+//        return redisTemplate.execute((RedisCallback<Long>) connection -> {
+//            return connection.incrBy(key.getBytes(), value);
+//        });
+//
+//    }
+//
+//    /**
+//     * 设置超时时间
+//     *
+//     * @param key
+//     * @param seconds
+//     */
+//    public void expire(String key, int seconds) {
+//        redisTemplate.expire(key, seconds, TimeUnit.SECONDS);
+//    }
+//
+//    /**
+//     * 判断是否缓存了数据
+//     * @param key 数据KEY
+//     * @return 判断是否缓存了
+//     */
+//    public boolean exist(String key) {
+//        return redisTemplate.execute((RedisCallback<Boolean>) connection -> {
+//            return connection.exists(key.getBytes());
+//        });
+//    }
 
 }

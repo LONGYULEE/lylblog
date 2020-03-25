@@ -21,6 +21,7 @@ public class ShiroServiceImp implements ShiroService {
 
     @Override
     public SysUserToken findByToken(String token) {
+        token = token.replaceAll("Bearer ","");
         String userId = redisUtil.get(RedisConstant.USER_TOKEN + token);
         if(StringUtils.isEmpty(userId)){
             return null;

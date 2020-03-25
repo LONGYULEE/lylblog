@@ -36,10 +36,29 @@ public class LoginController{
     @PostMapping("/sys/login")
     public Result login(@RequestBody LoginForm form){
 //        //判断验证码是否正确
+        if(!kaptchaService.verifyKaptcha(form.getUsername(),form.getCaptcha())){
+            throw new MyException("验证码错误");
+        }
+//
+//        //获取用户信息
+        SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>()
+                .lambda()
+                .eq(SysUser::getUsername,form.getUsername()));
+//        //判断用户名密码是否正确
+        if(user == null || !user.getPassword().equals(new Md5Hash(form.getPassword(),user.getSalt(),2).toString())){
+            //用户名或密码错误
+            return ResultUtil.failure("用户名或密码错误");
+        }
+        //判断账户是否锁定
+        if(user.getStatus() == 0){
+            return ResultUtil.failure("账号已被锁定");
+        }
+        return sysUserTokenService.createToken(user.getUserId());
+
+//        //判断验证码是否正确
 //        if(!kaptchaService.verifyKaptcha(form.getUsername(),form.getCaptcha())){
 //            throw new MyException("验证码错误");
 //        }
-//
 //        //获取用户信息
 //        SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>()
 //                .lambda()
@@ -50,28 +69,11 @@ public class LoginController{
 //            return ResultUtil.failure("用户名或密码错误");
 //        }
 //        //判断账户是否锁定
+//        if("0".equals(user.getStatus().toString())){
+//            throw new MyException("账号已被锁定，请联系管理员");
+//        }
 //
-//        return sysUserTokenService.createToken(user.getUserId());
-
-        //判断验证码是否正确
-        if(!kaptchaService.verifyKaptcha(form.getUsername(),form.getCaptcha())){
-            throw new MyException("验证码错误");
-        }
-        //获取用户信息
-        SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>()
-                .lambda()
-                .eq(SysUser::getUsername,form.getUsername()));
-        //判断用户名密码是否正确
-        if(user == null || !user.getPassword().equals(new Md5Hash(form.getPassword(),user.getSalt(),2).toString())){
-            //用户名或密码错误
-            return ResultUtil.failure("用户名或密码错误");
-        }
-        //判断账户是否锁定
-        if("0".equals(user.getStatus().toString())){
-            throw new MyException("账号已被锁定，请联系管理员");
-        }
-
-        return sysUserTokenService.login(user.getUserId());
+//        return sysUserTokenService.login(user.getUserId());
 
     }
 

@@ -37,10 +37,8 @@ public class KaptchaServiceImp implements KaptchaService {
             redisUtil.delete(RedisConstant.LOGIN_KAPTCHA + username);
         }
         redisUtil.set(RedisConstant.LOGIN_KAPTCHA + username,code,60 * 5);
-
         //生成图片验证码
         BufferedImage image = defaultKaptcha.createImage(code);
-
         //将图片验证码转为base64
         try {
             //io流
@@ -66,7 +64,6 @@ public class KaptchaServiceImp implements KaptchaService {
         if(StringUtils.isEmpty(username) || StringUtils.isEmpty(code)){
             return false;
         }
-
         //从redis中取出验证码
         String redisCode = redisUtil.get(RedisConstant.LOGIN_KAPTCHA + username);
         if(code.equalsIgnoreCase(redisCode)){

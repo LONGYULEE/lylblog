@@ -1,10 +1,15 @@
 package com.liyulong.blog.shiro;
 
 import com.liyulong.blog.main.common.util.JwtUtil;
+import com.liyulong.blog.main.pojo.sys.SysUser;
+import com.liyulong.blog.main.pojo.sys.SysUserToken;
+import com.liyulong.blog.shiro.service.ShiroService;
+import lombok.AllArgsConstructor;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,6 +18,9 @@ import org.springframework.stereotype.Component;
 // TODO
 @Component
 public class MyRealm extends AuthorizingRealm {
+
+    @Autowired
+    private ShiroService shiroService;
 
     @Override
     public boolean supports(AuthenticationToken token) {
@@ -33,16 +41,20 @@ public class MyRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
         String token = (String) auth.getPrincipal();
-        String userId = JwtUtil.getClaim(token,"userId");
-
-        if(userId == null){
-            throw new IncorrectCredentialsException("token无效，请重新登录");
+        //根据accessToken，查询用户信息
+        SysUserToken tokenEntity = shiroService.findByToken(token);
+        //token失效
+        if(tokenEntity == null){
+            throw new IncorrectCredentialsException("token失效");
         }
-
-        if(JwtUtil.verify(token)){
-            return new SimpleAuthenticationInfo(token,token,this.getName());
+        //查询用户信息
+        SysUser user = shiroService.queryUser(tokenEntity.getUserId());
+        //账号锁定
+        if(user.getStatus() == 0){
+            throw new LockedAccountException("账号已被锁定");
         }
-        throw new IncorrectCredentialsException("token无效");
-
+        //续期
+        shiroService.refreshToken(tokenEntity.getUserId(),token);
+        return new SimpleAuthenticationInfo(user,token,this.getName());
     }
 }

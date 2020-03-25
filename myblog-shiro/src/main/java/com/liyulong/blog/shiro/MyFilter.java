@@ -1,5 +1,8 @@
 package com.liyulong.blog.shiro;
 
+import com.liyulong.blog.main.common.result.Result;
+import com.liyulong.blog.main.common.result.ResultUtil;
+import com.liyulong.blog.main.common.util.JsonUtil;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
@@ -19,11 +22,9 @@ public class MyFilter extends AuthenticatingFilter {
     protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) throws Exception {
         //获取请求token
         String token = getRequestToken((HttpServletRequest) request);
-
         if(StringUtils.isEmpty(token)){
             return null;
         }
-
         return new MyToken(token);
     }
 
@@ -37,7 +38,7 @@ public class MyFilter extends AuthenticatingFilter {
             httpServletResponse.setHeader("Access-Control-Allow-Credentials","true");
             httpServletResponse.setHeader("Access-Control-Allow-Origin",((HttpServletRequest) request).getHeader(
                     "Origin"));
-//            String json =
+            String json = JsonUtil.toJson(ResultUtil.failure("token无效"));
             return false;
         }
         return executeLogin(request,response);
@@ -56,6 +57,15 @@ public class MyFilter extends AuthenticatingFilter {
         httpServletResponse.setHeader("Access-Control-Allow-Origin",((HttpServletRequest) request).getHeader(
                 "Origin"));
         //todo 处理登录失败的异常
+        try {
+            //处理登录失败的异常
+            Throwable throwable = e.getCause() == null ? e : e.getCause();
+            Result r = ResultUtil.failure(throwable.getMessage());
+            String json = JsonUtil.toJson(r);
+            httpServletResponse.getWriter().print(json);
+        } catch (Exception e1) {
+
+        }
         return false;
     }
 
