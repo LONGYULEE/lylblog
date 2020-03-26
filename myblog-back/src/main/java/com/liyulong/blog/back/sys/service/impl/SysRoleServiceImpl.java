@@ -29,7 +29,11 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public void createRole(SysRole role) {
-
+//        Integer count = baseMapper.selectCount(new QueryWrapper<SysRole>().lambda().eq(SysRole::getRoleName, role.getRoleName()));
+//        if(count != 0){
+//            throw new MyException("已存在该角色");
+//        }
+        baseMapper.insert(role);
     }
 
     @Override

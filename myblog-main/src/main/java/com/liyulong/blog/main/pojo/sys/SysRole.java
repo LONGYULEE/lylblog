@@ -1,5 +1,6 @@
 package com.liyulong.blog.main.pojo.sys;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -36,6 +37,7 @@ public class SysRole implements Serializable {
     private Integer createUserId;
 
     @ApiModelProperty(value = "创建时间")
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
     @TableField(exist = false)
