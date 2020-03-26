@@ -40,9 +40,14 @@ public class SysUserTokenServiceImp implements SysUserTokenService {
         String userIdKey = RedisConstant.USER_TOKEN + userId;
         //判断是否生成过token
         String tokenInRedis = redisUtil.get(userIdKey);
+        String tokenInRedis1 = redisUtil.get(tokenKey);
         if(!StringUtils.isEmpty(tokenInRedis)){
             //删除原来的token
-            redisUtil.delete(RedisConstant.USER_TOKEN + token);
+            redisUtil.delete(tokenInRedis);
+        }
+        if(!StringUtils.isEmpty(tokenInRedis1)){
+            //删除原来的token
+            redisUtil.delete(tokenInRedis1);
         }
         //将token存入redis
         redisUtil.set(tokenKey,userId,60 * 2 * 60);

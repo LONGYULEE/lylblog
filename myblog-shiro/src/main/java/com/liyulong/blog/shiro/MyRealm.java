@@ -1,5 +1,6 @@
 package com.liyulong.blog.shiro;
 
+import com.liyulong.blog.main.common.context.UserContext;
 import com.liyulong.blog.main.pojo.sys.SysUser;
 import com.liyulong.blog.main.pojo.sys.SysUserToken;
 import com.liyulong.blog.shiro.service.ShiroService;
@@ -54,6 +55,8 @@ public class MyRealm extends AuthorizingRealm {
         //TODO 修改刷新token策略
         //续期
         shiroService.refreshToken(tokenEntity.getUserId());
+        //tokenEntity存入上下文中，方便取用
+        UserContext context = new UserContext(tokenEntity);
         return new SimpleAuthenticationInfo(user,token,this.getName());
     }
 }

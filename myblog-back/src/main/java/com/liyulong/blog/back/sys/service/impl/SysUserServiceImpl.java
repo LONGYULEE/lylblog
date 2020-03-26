@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liyulong.blog.back.sys.service.SysRoleService;
 import com.liyulong.blog.back.sys.service.SysUserService;
+import com.liyulong.blog.main.common.context.UserContext;
 import com.liyulong.blog.main.common.exception.MyException;
 import com.liyulong.blog.main.common.util.PageUtils;
 import com.liyulong.blog.main.mapper.sys.SysUserMapper;
@@ -65,7 +66,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         String insertPassword = md5Hash.toString();
         user.setSalt(salt);
         user.setPassword(insertPassword);
-        //TODO 创建人Id快速获取
+        //上下文获取当前登录人信息
+        user.setCreateUserId(UserContext.getCurrentUser().getUserId());
         //判断用户名或邮箱是否重复
         Integer count = baseMapper.selectCount(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername, user.getUsername()));
         Integer count1 = baseMapper.selectCount(new QueryWrapper<SysUser>().lambda().eq(SysUser::getEmail,

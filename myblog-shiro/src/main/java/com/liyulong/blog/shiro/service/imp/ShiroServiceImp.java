@@ -41,7 +41,7 @@ public class ShiroServiceImp implements ShiroService {
     public void refreshToken(Integer userId) {
         redisUtil.updateExpire(RedisConstant.USER_TOKEN + userId);
         //获取tokenKey
-        String tokenKey = redisUtil.get(RedisConstant.USER_TOKEN + userId);
+        String tokenKey = RedisConstant.USER_TOKEN + redisUtil.get(RedisConstant.USER_TOKEN + userId);
         redisUtil.updateExpire(tokenKey);
     }
 

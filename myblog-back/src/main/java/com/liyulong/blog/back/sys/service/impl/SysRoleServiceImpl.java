@@ -2,6 +2,7 @@ package com.liyulong.blog.back.sys.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liyulong.blog.back.sys.service.SysRoleService;
+import com.liyulong.blog.main.common.util.PageUtils;
 import com.liyulong.blog.main.mapper.sys.SysRoleMapper;
 import com.liyulong.blog.main.pojo.sys.SysRole;
 import org.springframework.stereotype.Service;
@@ -24,5 +25,20 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Transactional(rollbackFor = Exception.class)
     public void deleteBatchIds(Integer[] userIds) {
         baseMapper.deleteBatchIds(Arrays.asList(userIds));
+    }
+
+    @Override
+    public void createRole(SysRole role) {
+
+    }
+
+    @Override
+    public PageUtils queryRoleByPage() {
+        return null;
+    }
+
+    @Override
+    public PageUtils queryRoleByUserId(Long userId) {
+        return null;
     }
 }
