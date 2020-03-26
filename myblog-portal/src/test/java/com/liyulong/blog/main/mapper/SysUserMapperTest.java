@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.liylong.blog.portal.MyblogApplication;
 import com.liyulong.blog.main.mapper.sys.SysUserMapper;
 import com.liyulong.blog.main.pojo.sys.SysUser;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,6 +50,12 @@ public class SysUserMapperTest {
         String username = "admin";
         SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername, "admin"));
         System.out.println(user);
+    }
+
+    @Test
+    public void getRandomString(){
+        String str = RandomStringUtils.randomAlphanumeric(10);
+        System.out.println(str);
     }
 
 }

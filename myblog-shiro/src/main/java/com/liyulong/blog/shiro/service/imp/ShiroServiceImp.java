@@ -38,9 +38,11 @@ public class ShiroServiceImp implements ShiroService {
     }
 
     @Override
-    public void refreshToken(Integer userId, String accessToken) {
-        redisUtil.updateExpire(RedisConstant.USER_TOKEN + accessToken);
+    public void refreshToken(Integer userId) {
         redisUtil.updateExpire(RedisConstant.USER_TOKEN + userId);
+        //获取tokenKey
+        String tokenKey = redisUtil.get(RedisConstant.USER_TOKEN + userId);
+        redisUtil.updateExpire(tokenKey);
     }
 
 }

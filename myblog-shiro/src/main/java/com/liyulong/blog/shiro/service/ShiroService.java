@@ -22,8 +22,7 @@ public interface ShiroService {
     /**
      * 刷新token
      * @param userId 用户id
-     * @param accessToken token
      */
-    void refreshToken(Integer userId,String accessToken);
+    void refreshToken(Integer userId);
 
 }

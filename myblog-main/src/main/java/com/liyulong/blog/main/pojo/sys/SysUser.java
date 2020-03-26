@@ -1,5 +1,6 @@
 package com.liyulong.blog.main.pojo.sys;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -53,6 +54,7 @@ public class SysUser implements Serializable {
     private Integer status;
 
     @ApiModelProperty(value = "创建时间")
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
     //标注此属性不存在于数据库字段中，查询时不查询此属性

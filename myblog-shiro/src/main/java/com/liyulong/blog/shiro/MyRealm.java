@@ -1,10 +1,8 @@
 package com.liyulong.blog.shiro;
 
-import com.liyulong.blog.main.common.util.JwtUtil;
 import com.liyulong.blog.main.pojo.sys.SysUser;
 import com.liyulong.blog.main.pojo.sys.SysUserToken;
 import com.liyulong.blog.shiro.service.ShiroService;
-import lombok.AllArgsConstructor;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -53,8 +51,9 @@ public class MyRealm extends AuthorizingRealm {
         if(user.getStatus() == 0){
             throw new LockedAccountException("账号已被锁定");
         }
+        //TODO 修改刷新token策略
         //续期
-        shiroService.refreshToken(tokenEntity.getUserId(),token);
+        shiroService.refreshToken(tokenEntity.getUserId());
         return new SimpleAuthenticationInfo(user,token,this.getName());
     }
 }

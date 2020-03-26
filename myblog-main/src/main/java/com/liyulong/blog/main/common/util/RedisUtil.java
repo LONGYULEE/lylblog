@@ -1,11 +1,9 @@
 package com.liyulong.blog.main.common.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -116,62 +114,5 @@ public class RedisUtil {
     public void updateExpire(String key){
         redisTemplate.expire(key,DEFAULT_EXPIRE,TimeUnit.SECONDS);
     }
-
-//    /**
-//     * 验证key是否存在
-//     * @param key
-//     * @return
-//     */
-//    public boolean exists(String key){
-//        return redisTemplate.hasKey(key);
-//    }
-//
-//    /**
-//     * 取得序列值的下一个
-//     *
-//     * @param key
-//     * @return
-//     */
-//    public Long getSeqNext(String key) {
-//        return redisTemplate.execute((RedisCallback<Long>) connection -> {
-//            return connection.incr(key.getBytes());
-//
-//        });
-//    }
-//
-//    /**
-//     * 取得序列值的下一个，增加 value
-//     *
-//     * @param key
-//     * @param value
-//     * @return
-//     */
-//    public Long getSeqNext(String key, long value) {
-//        return redisTemplate.execute((RedisCallback<Long>) connection -> {
-//            return connection.incrBy(key.getBytes(), value);
-//        });
-//
-//    }
-//
-//    /**
-//     * 设置超时时间
-//     *
-//     * @param key
-//     * @param seconds
-//     */
-//    public void expire(String key, int seconds) {
-//        redisTemplate.expire(key, seconds, TimeUnit.SECONDS);
-//    }
-//
-//    /**
-//     * 判断是否缓存了数据
-//     * @param key 数据KEY
-//     * @return 判断是否缓存了
-//     */
-//    public boolean exist(String key) {
-//        return redisTemplate.execute((RedisCallback<Boolean>) connection -> {
-//            return connection.exists(key.getBytes());
-//        });
-//    }
 
 }

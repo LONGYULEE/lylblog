@@ -13,4 +13,10 @@ import com.liyulong.blog.main.pojo.sys.SysRole;
  */
 public interface SysRoleService extends IService<SysRole> {
 
+    /**
+     * 批量删除用户下面的角色信息
+     * @param userIds 用户ids
+     */
+    void deleteBatchIds(Integer[] userIds);
+
 }

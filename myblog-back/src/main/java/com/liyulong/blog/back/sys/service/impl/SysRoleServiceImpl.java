@@ -5,6 +5,9 @@ import com.liyulong.blog.back.sys.service.SysRoleService;
 import com.liyulong.blog.main.mapper.sys.SysRoleMapper;
 import com.liyulong.blog.main.pojo.sys.SysRole;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
 
 /**
  * <p>
@@ -17,4 +20,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteBatchIds(Integer[] userIds) {
+        baseMapper.deleteBatchIds(Arrays.asList(userIds));
+    }
 }

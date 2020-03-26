@@ -6,13 +6,9 @@ import com.liyulong.blog.main.common.result.ResultUtil;
 import com.liyulong.blog.main.common.util.JwtUtil;
 import com.liyulong.blog.main.common.util.RedisUtil;
 import com.liyulong.blog.main.mapper.sys.SysUserMapper;
-import com.liyulong.blog.shiro.MyToken;
 import com.liyulong.blog.shiro.service.KaptchaService;
 import com.liyulong.blog.shiro.service.SysUserTokenService;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +27,9 @@ public class SysUserTokenServiceImp implements SysUserTokenService {
     @Override
     public void logout(String token) {
         token = token.replaceAll("Bearer ","");
-        Subject subject = SecurityUtils.getSubject();
-        subject.logout();
+        String userId = JwtUtil.getClaim(token,"userId");
+        redisUtil.delete(RedisConstant.USER_TOKEN + userId);
+        redisUtil.delete(RedisConstant.USER_TOKEN + token);
     }
 
     @Override
