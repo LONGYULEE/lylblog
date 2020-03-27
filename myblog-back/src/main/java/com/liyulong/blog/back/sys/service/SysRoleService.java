@@ -39,4 +39,6 @@ public interface SysRoleService extends IService<SysRole> {
      */
     PageUtils queryRoleByUserId(Long userId);
 
+    void deleteByIds(Integer[] roleId);
+
 }

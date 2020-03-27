@@ -2,6 +2,7 @@ package com.liyulong.blog.back.sys.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.liyulong.blog.main.common.util.PageUtils;
+import com.liyulong.blog.main.pojo.sys.SysRole;
 import com.liyulong.blog.main.pojo.sys.SysUser;
 
 import java.util.List;
@@ -52,5 +53,11 @@ public interface SysUserService extends IService<SysUser> {
      * @return true
      */
     void createUser(SysUser user);
+
+    /**
+     * 查询用户的角色
+     * @return
+     */
+    List<SysRole> queryUserRole(Integer userId);
 
 }

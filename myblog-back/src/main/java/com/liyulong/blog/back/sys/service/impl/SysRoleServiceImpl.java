@@ -1,7 +1,10 @@
 package com.liyulong.blog.back.sys.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liyulong.blog.back.sys.service.SysRoleService;
+import com.liyulong.blog.main.common.context.UserContext;
+import com.liyulong.blog.main.common.exception.MyException;
 import com.liyulong.blog.main.common.util.PageUtils;
 import com.liyulong.blog.main.mapper.sys.SysRoleMapper;
 import com.liyulong.blog.main.pojo.sys.SysRole;
@@ -24,15 +27,16 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteBatchIds(Integer[] userIds) {
-        baseMapper.deleteBatchIds(Arrays.asList(userIds));
+        //todo 删除多个user下面的角色信息
     }
 
     @Override
     public void createRole(SysRole role) {
-//        Integer count = baseMapper.selectCount(new QueryWrapper<SysRole>().lambda().eq(SysRole::getRoleName, role.getRoleName()));
-//        if(count != 0){
-//            throw new MyException("已存在该角色");
-//        }
+        Integer count = baseMapper.selectCount(new QueryWrapper<SysRole>().lambda().eq(SysRole::getRoleName, role.getRoleName()));
+        if(count != 0){
+            throw new MyException("已存在该角色");
+        }
+        role.setCreateUserId(UserContext.getCurrentUser().getUserId());
         baseMapper.insert(role);
     }
 
@@ -44,5 +48,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public PageUtils queryRoleByUserId(Long userId) {
         return null;
+    }
+
+    @Override
+    public void deleteByIds(Integer[] roleId) {
+        baseMapper.deleteBatchIds(Arrays.asList(roleId));
     }
 }

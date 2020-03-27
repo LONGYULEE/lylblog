@@ -8,11 +8,7 @@ import com.liyulong.blog.main.common.validator.AddGroup;
 import com.liyulong.blog.main.common.validator.ValidatorUtils;
 import com.liyulong.blog.main.pojo.sys.SysRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -22,7 +18,7 @@ import org.springframework.stereotype.Controller;
  * @author lihanlu
  * @since 2020-03-24
  */
-@Controller
+@RestController
 @RequestMapping("/admin/sys/role")
 public class SysRoleController {
 
@@ -33,6 +29,12 @@ public class SysRoleController {
     public Result createRole(@RequestBody SysRole role){
         ValidatorUtils.validateEntity(role, AddGroup.class);
         sysRoleService.createRole(role);
+        return ResultUtil.success();
+    }
+
+    @DeleteMapping("/deleteByIds")
+    public Result deleteRole(@RequestBody Integer[] roleIds){
+        sysRoleService.deleteByIds(roleIds);
         return ResultUtil.success();
     }
 

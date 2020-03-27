@@ -34,4 +34,9 @@ public class SysUserController {
         return ResultUtil.success();
     }
 
+    @GetMapping("/getUserRole")
+    public Result getUserRole(@RequestParam Integer userId){
+        return ResultUtil.success(sysUserService.queryUserRole(userId));
+    }
+
 }

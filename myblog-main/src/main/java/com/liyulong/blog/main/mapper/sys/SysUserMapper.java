@@ -1,6 +1,7 @@
 package com.liyulong.blog.main.mapper.sys;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.liyulong.blog.main.pojo.sys.SysRole;
 import com.liyulong.blog.main.pojo.sys.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -31,4 +32,9 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      */
     List<Integer> queryAllMenuId(Integer userId);
 
+    /**
+     * 通过用户id查询用户的角色信息
+     * @param userId
+     */
+    List<SysRole> queryUserRole(Integer userId);
 }
