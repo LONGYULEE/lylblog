@@ -3,6 +3,7 @@ package com.liyulong.blog.main.common.util;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.liyulong.blog.main.common.filter.SQLFilter;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.HashMap;

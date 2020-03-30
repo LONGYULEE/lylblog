@@ -8,5 +8,8 @@
         <result column="role_id" property="roleId" />
         <result column="menu_id" property="menuId" />
     </resultMap>
+    <select id="queryMenuIdListByRoleId" resultType="java.lang.Integer">
+        select menu_id from sys_role_menu where role_id = #{roleId}
+    </select>
 
 </mapper>

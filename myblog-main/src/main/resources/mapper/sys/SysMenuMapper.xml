@@ -13,5 +13,11 @@
         <result column="icon" property="icon" />
         <result column="order_num" property="orderNum" />
     </resultMap>
+    <select id="queryNotButtonList" resultType="com.liyulong.blog.main.pojo.sys.SysMenu">
+        select * from sys_menu where  type != 2 order by order_num asc
+    </select>
+    <select id="queryListParentId" resultType="com.liyulong.blog.main.pojo.sys.SysMenu">
+        select * from sys_menu where parent_id = #{parent_id} order by order_num asc
+    </select>
 
 </mapper>
