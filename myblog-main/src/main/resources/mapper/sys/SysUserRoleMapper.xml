@@ -8,7 +8,11 @@
         <result column="user_id" property="userId" />
         <result column="role_id" property="roleId" />
     </resultMap>
-
+    <select id="queryRoleIdListByUserId" resultType="java.lang.Integer">
+        select sur.role_id
+        from sys_user_role sur
+        where user_id = #{userId}
+    </select>
 
 
 </mapper>

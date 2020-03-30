@@ -17,6 +17,5 @@ import java.util.List;
 @Mapper
 public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
 
-
-
+    List<Integer> queryRoleIdListByUserId(Integer userId);
 }
