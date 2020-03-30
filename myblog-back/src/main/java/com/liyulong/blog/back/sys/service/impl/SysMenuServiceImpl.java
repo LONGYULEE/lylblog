@@ -54,7 +54,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<SysMenu> queryNotButtonList() {
-        return null;
+        return baseMapper.queryNotButtonList();
     }
 
     @Override
