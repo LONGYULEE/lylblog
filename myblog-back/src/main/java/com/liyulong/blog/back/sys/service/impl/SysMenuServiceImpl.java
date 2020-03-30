@@ -3,6 +3,7 @@ package com.liyulong.blog.back.sys.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liyulong.blog.back.sys.service.SysMenuService;
 import com.liyulong.blog.back.sys.service.SysRoleMenuService;
+import com.liyulong.blog.back.sys.service.SysUserService;
 import com.liyulong.blog.main.mapper.sys.SysMenuMapper;
 import com.liyulong.blog.main.pojo.sys.SysMenu;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,18 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Autowired
     private SysRoleMenuService roleMenuService;
 
+    @Autowired
+    private SysUserService userService;
+
     @Override
     public List<SysMenu> listUserMenu(Integer userId) {
-        return null;
+        //系统管理员，拥有最高权限
+        if(userId == 1){
+            return getAllMenuList(null);
+        }
+        //用户菜单列表
+        List<Integer> menuIdList = userService.queryAllMenuId(userId);
+        return getAllMenuList(menuIdList);
     }
 
     @Override
@@ -59,7 +69,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<SysMenu> getUserMenuList(Integer userId) {
-        return null;
+        //管理员，拥有所有菜单权限
+        if(userId == 1){
+            return getAllMenuList(null);
+        }
+        //用户菜单列表
+        List<Integer> menuIdList = userService.queryAllMenuId(userId);
+        return getAllMenuList(menuIdList);
     }
 
     @Override
@@ -77,6 +93,21 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     private List<SysMenu> getAllMenuList(List<Integer> menuIdList){
         //查询用户所属所有目录
         List<SysMenu> menuList = queryListParentId(0,menuIdList);
-        return null;
+        //生成指定格式的菜单数据
+        getMenuTreeList(menuList,menuIdList);
+        return menuList;
+    }
+
+    //生成指定格式得菜单数据
+    private List<SysMenu> getMenuTreeList(List<SysMenu> menuList,List<Integer> menuIdList){
+        List<SysMenu> subMenuList = new ArrayList<>();
+        for (SysMenu item : menuList) {
+            //目录
+            if(item.getType() == 0){
+                item.setList(getMenuTreeList(queryListParentId(item.getMenuId(),menuIdList),menuIdList));
+            }
+            subMenuList.add(item);
+        }
+        return subMenuList;
     }
 }
