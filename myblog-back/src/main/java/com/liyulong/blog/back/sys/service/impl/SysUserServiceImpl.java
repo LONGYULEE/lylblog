@@ -43,6 +43,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return baseMapper.queryAllMenuId(userId);
     }
 
+    //TODO 此处查询需要修改
     @Override
     public PageUtils queryPage(Map<String, Object> map) {
         String username = (String) map.get("username");
@@ -75,11 +76,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public void createUser(SysUser user) {
         //生成随机字符串作为盐值
         String salt = RandomStringUtils.randomAlphanumeric(8);
-        //密码加密
-        Md5Hash md5Hash = new Md5Hash(user.getPassword(),salt,2);
-        String insertPassword = md5Hash.toString();
         user.setSalt(salt);
-        user.setPassword(insertPassword);
+        user.setPassword(encryptPassword(user.getPassword(),salt));
         //上下文获取当前登录人信息
         user.setCreateUserId(UserContext.getCurrentUser().getUserId());
         //判断用户名或邮箱是否重复
@@ -98,5 +96,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public List<SysRole> queryUserRole(Integer userId) {
         return baseMapper.queryUserRole(userId);
+    }
+
+    /**
+     * 密码加密
+     * @param password
+     * @param salt
+     * @return
+     */
+    private String encryptPassword(String password,String salt){
+        //密码加密
+        Md5Hash md5Hash = new Md5Hash(password,salt,2);
+        return md5Hash.toString();
     }
 }

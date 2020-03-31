@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.liyulong.blog.main.common.util.PageUtils;
 import com.liyulong.blog.main.pojo.sys.SysRole;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 角色 服务类
@@ -40,5 +43,12 @@ public interface SysRoleService extends IService<SysRole> {
     PageUtils queryRoleByUserId(Long userId);
 
     void deleteByIds(Integer[] roleId);
+
+    /**
+     * 查询角色列表
+     * @param map
+     * @return
+     */
+    List<SysRole> getList(Map<String,Object> map);
 
 }

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -53,5 +55,11 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public void deleteByIds(Integer[] roleId) {
         baseMapper.deleteBatchIds(Arrays.asList(roleId));
+    }
+
+    @Override
+    public List<SysRole> getList(Map<String, Object> map) {
+        
+        return null;
     }
 }

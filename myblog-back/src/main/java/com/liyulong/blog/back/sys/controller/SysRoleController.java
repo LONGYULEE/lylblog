@@ -23,19 +23,40 @@ import org.springframework.web.bind.annotation.*;
 public class SysRoleController {
 
     @Autowired
-    private SysRoleService sysRoleService;
+    private SysRoleService roleService;
 
+    /**
+     * 创建一个角色
+     * @param role
+     * @return
+     */
     @PostMapping("/createRole")
     public Result createRole(@RequestBody SysRole role){
         ValidatorUtils.validateEntity(role, AddGroup.class);
-        sysRoleService.createRole(role);
+        roleService.createRole(role);
         return ResultUtil.success();
     }
 
+    /**
+     * 批量删除角色
+     * @param roleIds
+     * @return
+     */
     @DeleteMapping("/deleteByIds")
     public Result deleteRole(@RequestBody Integer[] roleIds){
-        sysRoleService.deleteByIds(roleIds);
+        roleService.deleteByIds(roleIds);
         return ResultUtil.success();
     }
+
+    /**
+     * 获取角色列表
+     * @return
+     */
+    @GetMapping("/list")
+    public Result getRoleList(){
+        return ResultUtil.success();
+    }
+
+
 
 }
