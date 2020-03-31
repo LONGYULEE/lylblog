@@ -10,8 +10,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 @SpringBootTest(classes = MyblogApplication.class)
 @RunWith(SpringRunner.class)
 public class SysMenuMapperTest {
@@ -33,5 +31,10 @@ public class SysMenuMapperTest {
         for (SysMenu menu : list) {
             System.out.println(menu);
         }
+    }
+
+    @Test
+    public void queryAll(){
+        List<SysMenu> list = menuMapper.selectList(null);
     }
 }

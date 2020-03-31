@@ -6,10 +6,13 @@ import com.liyulong.blog.main.pojo.sys.SysUserToken;
 import com.liyulong.blog.shiro.service.ShiroService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 /**
  * 自定义Realm
@@ -31,7 +34,13 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        return null;
+        SysUser user = (SysUser) principals.getPrimaryPrincipal();
+        Integer userId = user.getUserId();
+        //获取用户权限
+        Set<String> roleSet = shiroService.queryPermissions(userId);
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        info.setStringPermissions(roleSet);
+        return info;
     }
 
     /**

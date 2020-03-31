@@ -60,4 +60,6 @@ public interface SysUserService extends IService<SysUser> {
      */
     List<SysRole> queryUserRole(Integer userId);
 
+
+
 }

@@ -3,6 +3,8 @@ package com.liyulong.blog.shiro.service;
 import com.liyulong.blog.main.pojo.sys.SysUser;
 import com.liyulong.blog.main.pojo.sys.SysUserToken;
 
+import java.util.Set;
+
 public interface ShiroService {
 
     /**
@@ -25,4 +27,10 @@ public interface ShiroService {
      */
     void refreshToken(Integer userId);
 
+    /**
+     * 查询用户所有的权限
+     * @param userId
+     * @return
+     */
+    Set<String> queryPermissions(Integer userId);
 }
