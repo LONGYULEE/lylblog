@@ -4,6 +4,7 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.liyulong.blog.main.common.constant.RedisConstant;
 import com.liyulong.blog.main.common.exception.MyException;
 import com.liyulong.blog.main.common.util.RedisUtil;
+import com.liyulong.blog.main.pojo.book.Book;
 import com.liyulong.blog.shiro.service.KaptchaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,18 +26,15 @@ public class KaptchaServiceImp implements KaptchaService {
     private RedisUtil redisUtil;
 
     @Override
-    public String getKaptcha(String username) {
-        if(StringUtils.isEmpty(username)){
-            throw new MyException("用户名不能为空");
-        }
+    public String getKaptcha() {
         //生成文字验证码
         String code = defaultKaptcha.createText();
         //判断redis中是否存在有对应验证码
-        if(!StringUtils.isEmpty(redisUtil.get(RedisConstant.LOGIN_KAPTCHA + username))){
+        if(!StringUtils.isEmpty(redisUtil.get(RedisConstant.LOGIN_KAPTCHA + code))){
             //不为空删除redis中对应key值
-            redisUtil.delete(RedisConstant.LOGIN_KAPTCHA + username);
+            redisUtil.delete(RedisConstant.LOGIN_KAPTCHA + code);
         }
-        redisUtil.set(RedisConstant.LOGIN_KAPTCHA + username,code,60 * 5);
+        redisUtil.set(RedisConstant.LOGIN_KAPTCHA + code,code,60 * 5);
         //生成图片验证码
         BufferedImage image = defaultKaptcha.createImage(code);
         //将图片验证码转为base64
@@ -60,14 +58,12 @@ public class KaptchaServiceImp implements KaptchaService {
     }
 
     @Override
-    public Boolean verifyKaptcha(String username, String code) {
-        if(StringUtils.isEmpty(username) || StringUtils.isEmpty(code)){
+    public Boolean verifyKaptcha(String code) {
+        if(StringUtils.isEmpty(code)){
             return false;
         }
-        //从redis中取出验证码
-        String redisCode = redisUtil.get(RedisConstant.LOGIN_KAPTCHA + username);
-        if(code.equalsIgnoreCase(redisCode)){
-            redisUtil.delete(RedisConstant.LOGIN_KAPTCHA + username);
+        Boolean b = redisUtil.exists(RedisConstant.LOGIN_KAPTCHA + code);
+        if(b){
             return true;
         }
         return false;

@@ -115,4 +115,14 @@ public class RedisUtil {
         redisTemplate.expire(key,DEFAULT_EXPIRE,TimeUnit.SECONDS);
     }
 
+    /**
+     * 判断键是否存在
+     * @param key
+     * @return
+     */
+    public boolean exists(String key){
+        return redisTemplate.hasKey(key);
+    }
+
+
 }
