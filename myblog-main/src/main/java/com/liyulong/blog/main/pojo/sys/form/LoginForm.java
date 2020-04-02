@@ -15,7 +15,7 @@ public class LoginForm implements Serializable {
     private String password;
     //验证码
     private String captcha;
-    //id
+    //验证码的唯一标识
     private String uuid;
 
 }

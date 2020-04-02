@@ -26,15 +26,15 @@ public class KaptchaServiceImp implements KaptchaService {
     private RedisUtil redisUtil;
 
     @Override
-    public String getKaptcha() {
+    public String getKaptcha(String uuid) {
         //生成文字验证码
         String code = defaultKaptcha.createText();
         //判断redis中是否存在有对应验证码
-        if(!StringUtils.isEmpty(redisUtil.get(RedisConstant.LOGIN_KAPTCHA + code))){
+        if(!StringUtils.isEmpty(redisUtil.get(RedisConstant.LOGIN_KAPTCHA + uuid))){
             //不为空删除redis中对应key值
-            redisUtil.delete(RedisConstant.LOGIN_KAPTCHA + code);
+            redisUtil.delete(RedisConstant.LOGIN_KAPTCHA + uuid);
         }
-        redisUtil.set(RedisConstant.LOGIN_KAPTCHA + code,code,60 * 5);
+        redisUtil.set(RedisConstant.LOGIN_KAPTCHA + uuid,code,60 * 5);
         //生成图片验证码
         BufferedImage image = defaultKaptcha.createImage(code);
         //将图片验证码转为base64
@@ -58,12 +58,15 @@ public class KaptchaServiceImp implements KaptchaService {
     }
 
     @Override
-    public Boolean verifyKaptcha(String code) {
-        if(StringUtils.isEmpty(code)){
+    public Boolean verifyKaptcha(String code,String uuid) {
+        if(StringUtils.isEmpty(code) || StringUtils.isEmpty(uuid)){
             return false;
         }
-        Boolean b = redisUtil.exists(RedisConstant.LOGIN_KAPTCHA + code);
-        if(b){
+        //从redis中取出验证码
+        String redisCode = redisUtil.get(RedisConstant.LOGIN_KAPTCHA + uuid);
+        if(code.equalsIgnoreCase(redisCode)){
+            //验证成功删除验证码
+            redisUtil.delete(RedisConstant.LOGIN_KAPTCHA + uuid);
             return true;
         }
         return false;

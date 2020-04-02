@@ -29,14 +29,14 @@ public class LoginController{
     private KaptchaService kaptchaService;
 
     @GetMapping("/sys/getKaptcha")
-    public String getKaptcha(){
-        return kaptchaService.getKaptcha();
+    public String getKaptcha(@RequestParam("uuid") String uuid){
+        return kaptchaService.getKaptcha(uuid);
     }
 
     @PostMapping("/sys/login")
     public Result login(@RequestBody LoginForm form){
         //判断验证码是否正确
-        if(!kaptchaService.verifyKaptcha(form.getCaptcha())){
+        if(!kaptchaService.verifyKaptcha(form.getCaptcha(),form.getUuid())){
             throw new MyException("验证码错误");
         }
 
