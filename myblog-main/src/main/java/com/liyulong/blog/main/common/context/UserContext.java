@@ -17,6 +17,8 @@ public class UserContext {
         return current.get();
     }
 
+    public static Integer getUserId(){return current.get().getUserId();}
+
     public void close(){
         current.remove();
     }
