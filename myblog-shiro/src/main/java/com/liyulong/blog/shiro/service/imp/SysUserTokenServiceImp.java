@@ -8,7 +8,6 @@ import com.liyulong.blog.main.common.util.RedisUtil;
 import com.liyulong.blog.main.mapper.sys.SysUserMapper;
 import com.liyulong.blog.shiro.service.KaptchaService;
 import com.liyulong.blog.shiro.service.SysUserTokenService;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,15 +38,12 @@ public class SysUserTokenServiceImp implements SysUserTokenService {
         String tokenKey = RedisConstant.USER_TOKEN + token;
         String userIdKey = RedisConstant.USER_TOKEN + userId;
         //判断是否生成过token
-        String tokenInRedis = redisUtil.get(userIdKey);
-        String tokenInRedis1 = redisUtil.get(tokenKey);
-        if(!StringUtils.isEmpty(tokenInRedis)){
-            //删除原来的token
-            redisUtil.delete(tokenInRedis);
-        }
-        if(!StringUtils.isEmpty(tokenInRedis1)){
-            //删除原来的token
-            redisUtil.delete(tokenInRedis1);
+        if(redisUtil.exists(userIdKey)){
+            String tokenInRedis = redisUtil.get(userIdKey);
+            //删除原来的token(USER_TOKEN + token)
+            redisUtil.delete(RedisConstant.USER_TOKEN + tokenInRedis);
+            //删除原来的token(USER_TOKEN + userId)
+            redisUtil.delete(userIdKey);
         }
         //将token存入redis
         redisUtil.set(tokenKey,userId,60 * 2 * 60);

@@ -30,6 +30,7 @@ public class MyFilter extends AuthenticatingFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
         //获取请求token，如果token不存在，直接返回401
         String token = getRequestToken((HttpServletRequest) request);
         if(StringUtils.isEmpty(token)){
@@ -39,6 +40,9 @@ public class MyFilter extends AuthenticatingFilter {
             httpServletResponse.setHeader("Access-Control-Allow-Origin",((HttpServletRequest) request).getHeader(
                     "Origin"));
             String json = JsonUtil.toJson(ResultUtil.failure("token无效"));
+            //设置返回信息编码格式，否则中文显示乱码
+            httpResponse.setHeader("content-type", "text/html;charset=UTF-8");
+            httpResponse.getWriter().print(json);
             return false;
         }
         return executeLogin(request,response);
