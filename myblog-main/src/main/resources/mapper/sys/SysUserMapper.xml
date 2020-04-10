@@ -29,9 +29,9 @@
 
     <!--查询用户所有的菜单Id-->
     <select id="queryAllMenuId" resultType="java.lang.Integer">
-        select distinct rm.menu.id from sys_user_role sur
-        left join sys_role_menu rm on ur.role_id = rm.role_id
-        where ur.user_id = #{userId}
+        select distinct rm.menu_id from sys_user_role sur
+        left join sys_role_menu rm on sur.role_id = rm.role_id
+        where sur.user_id = #{userId}
     </select>
     <!--查询用户角色信息-->
     <select id="queryUserRole" resultType="com.liyulong.blog.main.pojo.sys.SysRole">

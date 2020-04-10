@@ -55,6 +55,7 @@ public class SysMenu implements Serializable {
     @TableField(exist = false)
     private Boolean open;
 
+    //多级菜单存放 list
     @TableField(exist = false)
     private List<?> list;
 
