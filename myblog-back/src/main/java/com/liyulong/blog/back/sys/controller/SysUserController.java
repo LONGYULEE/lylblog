@@ -7,6 +7,7 @@ import com.liyulong.blog.main.common.exception.MyException;
 import com.liyulong.blog.main.common.result.Result;
 import com.liyulong.blog.main.common.result.ResultUtil;
 import com.liyulong.blog.main.common.util.PageUtils;
+import com.liyulong.blog.main.common.util.QiNiuUtil;
 import com.liyulong.blog.main.common.validator.AddGroup;
 import com.liyulong.blog.main.common.validator.UpdateGroup;
 import com.liyulong.blog.main.common.validator.ValidatorUtils;
@@ -17,7 +18,10 @@ import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/admin/sys/user")
@@ -90,7 +94,13 @@ public class SysUserController {
      */
     @GetMapping("/info")
     public Result info(){
-        return ResultUtil.success(UserContext.getCurrentUser());
+        SysUser user = userService.getById(UserContext.getUserId());
+        Map<String,Object> map = new HashMap<>();
+        map.put("id",user.getUserId());
+        map.put("username",user.getUsername());
+        map.put("avatar",user.getAvatar());
+        map.put("token",UserContext.getCurrentUser().getToken());
+        return ResultUtil.success(map);
     }
 
     /**
@@ -130,6 +140,13 @@ public class SysUserController {
         }
         String newPssword = new Md5Hash(newPass,user.getSalt(),2).toString();
         userService.updatePassword(userId, oldPassword, newPssword);
+        return ResultUtil.success();
+    }
+
+    //上传用户头像
+    @GetMapping("/uploadAvatar")
+    public Result uploadAvatar(@RequestParam String path) throws UnsupportedEncodingException {
+        userService.uploadAvatar(path);
         return ResultUtil.success();
     }
 

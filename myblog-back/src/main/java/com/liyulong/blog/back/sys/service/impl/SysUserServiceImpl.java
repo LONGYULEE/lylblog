@@ -9,6 +9,7 @@ import com.liyulong.blog.back.sys.service.SysUserService;
 import com.liyulong.blog.main.common.context.UserContext;
 import com.liyulong.blog.main.common.exception.MyException;
 import com.liyulong.blog.main.common.util.PageUtils;
+import com.liyulong.blog.main.common.util.QiNiuUtil;
 import com.liyulong.blog.main.common.util.Query;
 import com.liyulong.blog.main.mapper.sys.SysUserMapper;
 import com.liyulong.blog.main.pojo.sys.SysRole;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -96,6 +98,21 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public List<SysRole> queryUserRole(Integer userId) {
         return baseMapper.queryUserRole(userId);
+    }
+
+    @Override
+    public void uploadAvatar(String path) throws UnsupportedEncodingException {
+        //上传图片到七牛云
+        boolean b = QiNiuUtil.upload(path, "avatar:" + UserContext.getUserId(), false);
+        if(b){
+            //上传成功后返回图片的云端地址
+            String fileUrl = QiNiuUtil.fileUrl("avatar:" + UserContext.getUserId());
+            //截取 / 之后的字符串
+            String s = fileUrl.substring(fileUrl.indexOf("/"));
+            //截取 ? 之前的字符串
+            String s1 = s.substring(0, s.indexOf("?"));
+            baseMapper.updateAvatarById("http://q8ig3m2zn.bkt.clouddn.com" + s1,UserContext.getUserId());
+        }
     }
 
     /**

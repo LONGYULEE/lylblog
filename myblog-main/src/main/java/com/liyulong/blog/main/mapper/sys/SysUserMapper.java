@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.liyulong.blog.main.pojo.sys.SysRole;
 import com.liyulong.blog.main.pojo.sys.SysUser;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -37,4 +38,10 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @param userId
      */
     List<SysRole> queryUserRole(Integer userId);
+
+    /**
+     * 将远程头像地址写入user中
+     * @param avatarUrl 头像路径
+     */
+    void updateAvatarById(@Param("avatarUrl") String avatarUrl, @Param("userId") Integer userId);
 }

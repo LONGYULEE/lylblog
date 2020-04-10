@@ -58,7 +58,7 @@ public class SysUser implements Serializable {
     private Date createTime;
 
     @ApiModelProperty(value = "用户头像")
-    private String avator;
+    private String avatar;
 
     //标注此属性不存在于数据库字段中，查询时不查询此属性
     @TableField(exist = false)
