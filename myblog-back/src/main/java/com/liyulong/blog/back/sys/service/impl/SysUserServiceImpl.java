@@ -48,12 +48,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     //TODO 此处查询需要修改
     @Override
     public PageUtils queryPage(Map<String, Object> map) {
-        String username = (String) map.get("username");
-        Integer createUserId = (Integer) map.get("createUserId");
+        Integer userId = (Integer) map.get("userId");
         IPage<SysUser> iPage = baseMapper.selectPage(new Query<SysUser>(map).getPage(),
                 new QueryWrapper<SysUser>().lambda()
-                        .like(StringUtils.isNotBlank(username),SysUser::getUsername,username)
-                        .eq(createUserId != null,SysUser::getCreateUserId,createUserId));
+                        .eq(userId != null,SysUser::getUserId,userId));
         return new PageUtils(iPage);
     }
 
