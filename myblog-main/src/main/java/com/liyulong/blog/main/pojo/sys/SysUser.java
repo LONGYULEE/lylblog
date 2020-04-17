@@ -30,7 +30,6 @@ public class SysUser implements Serializable {
     @TableId(value = "user_id",type = IdType.AUTO)
     private Integer userId;
 
-    //todo 添加验证组
     @NotBlank(message = "用户名不能为空",groups = {AddGroup.class, UpdateGroup.class})
     @ApiModelProperty(value = "用户名")
     private String username;

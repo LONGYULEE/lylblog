@@ -60,7 +60,6 @@ public class MyFilter extends AuthenticatingFilter {
         httpServletResponse.setHeader("Access-Control-Allow-Credentials","true");
         httpServletResponse.setHeader("Access-Control-Allow-Origin",((HttpServletRequest) request).getHeader(
                 "Origin"));
-        //todo 处理登录失败的异常
         try {
             //处理登录失败的异常
             Throwable throwable = e.getCause() == null ? e : e.getCause();

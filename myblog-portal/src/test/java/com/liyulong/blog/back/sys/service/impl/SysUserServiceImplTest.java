@@ -23,9 +23,8 @@ public class SysUserServiceImplTest {
 
     @Test
     public void queryPage() {
-        Map<String,Object> map = new HashMap<>();
-        map.put("userId",1);
-        PageUtils page = userService.queryPage(map);
-        page.getList().forEach(System.out::println);
+//        Map<String,Object> map = new HashMap<>();
+//        map.put("userId",1);
+
     }
 }

@@ -28,10 +28,10 @@ public interface SysUserService extends IService<SysUser> {
 
     /**
      * 分页查询用户信息
-     * @param map
+     * @param user
      * @return
      */
-    PageUtils queryPage(Map<String,Object> map);
+    List<SysUser> queryPage(SysUser user,int page,int size);
 
     /**
      * 更新密码

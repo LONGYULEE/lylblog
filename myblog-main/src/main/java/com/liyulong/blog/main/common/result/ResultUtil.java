@@ -70,4 +70,12 @@ public class ResultUtil {
         return result;
     }
 
+    public static  Result failure(String msg,int code){
+        Result result = new Result();
+        result.setFlag(false);
+        result.setCode(code);
+        result.setMessage(msg);
+        return result;
+    }
+
 }

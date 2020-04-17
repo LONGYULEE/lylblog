@@ -11,5 +11,6 @@ public class ResultCode {
     public static final int ACCESSERROR=2003;//权限不足
     public static final int REMOTEERROR=2004;//远程调用失败
     public static final int REPERROR=2005;//重复操作
+    public static final int TOKENERROR=2005;//token无效
 
 }

@@ -3,6 +3,7 @@ package com.liyulong.blog.back.sys.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liyulong.blog.back.sys.service.SysRoleService;
 import com.liyulong.blog.back.sys.service.SysUserService;
@@ -47,12 +48,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     //TODO 此处查询需要修改
     @Override
-    public PageUtils queryPage(Map<String, Object> map) {
-        Integer userId = (Integer) map.get("userId");
-        IPage<SysUser> iPage = baseMapper.selectPage(new Query<SysUser>(map).getPage(),
-                new QueryWrapper<SysUser>().lambda()
-                        .eq(userId != null,SysUser::getUserId,userId));
-        return new PageUtils(iPage);
+    public List<SysUser> queryPage(SysUser user,int page,int size) {
+        //超级管理员查询所有用户
+        //其他用户查询自己创建的用户
+        if(UserContext.getUserId() == 1){
+            Page<SysUser> userPage = new Page<>(page,size);
+            IPage<SysUser> userIPage = baseMapper.selectPage(userPage,null);
+            return userIPage.getRecords();
+        }
+        return null;
     }
 
     @Override

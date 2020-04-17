@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -105,17 +106,15 @@ public class SysUserController {
 
     /**
      * 查看用户列表
-     * @param map
+     * @param user
      * @return
      */
     @GetMapping("/list")
-    public Result getList(@RequestBody Map<String,Object> map){
-        //超级管理员查看所有管理列表
-        if(UserContext.getCurrentUser().getUserId() == 1){
-            map.put("createUserId",1);
-        }
-        PageUtils page = userService.queryPage(map);
-        return ResultUtil.success(page);
+    public Result getList(@RequestBody(required = false) SysUser user,
+                          @RequestParam(value = "page",required = false,defaultValue = "1") int page,
+                          @RequestParam(value = "size",required = false,defaultValue = "10") int size){
+        List<SysUser> userList = userService.queryPage(user,page,size);
+        return ResultUtil.success(userList);
     }
 
     /**
