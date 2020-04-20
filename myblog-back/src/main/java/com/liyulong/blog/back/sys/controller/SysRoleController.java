@@ -2,18 +2,19 @@ package com.liyulong.blog.back.sys.controller;
 
 
 import com.liyulong.blog.back.sys.service.SysRoleService;
-import com.liyulong.blog.main.common.result.PageResult;
+import com.liyulong.blog.main.common.context.UserContext;
 import com.liyulong.blog.main.common.result.Result;
 import com.liyulong.blog.main.common.result.ResultUtil;
 import com.liyulong.blog.main.common.validator.AddGroup;
 import com.liyulong.blog.main.common.validator.ValidatorUtils;
 import com.liyulong.blog.main.pojo.sys.SysRole;
-import io.swagger.annotations.ApiImplicitParam;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -64,12 +65,23 @@ public class SysRoleController {
      */
     @GetMapping("/list")
     @RequiresPermissions("sys:role:list")
-    public Result getRoleList(@RequestParam(required = false) String roleName,
+    public Result getRoleListByPage(@RequestParam(required = false) String roleName,
                                   @RequestParam(value = "page",required = false,defaultValue = "1") Integer page,
                                   @RequestParam(value = "size",required = false,defaultValue = "10") Integer size){
         return ResultUtil.success(roleService.queryRoleByPage(roleName, page, size));
     }
 
+    @GetMapping("/select")
+    @RequiresPermissions("sys:role:select")
+    public Result getRoleList(){
+        Map<String,Object> map = new HashMap<>();
+        //如果不是管理员只能查询自己创建的角色列表
+        if(UserContext.getUserId() == 1){
+            map.put("createUserId",UserContext.getUserId());
+        }
+        Collection<SysRole> roleCollection = roleService.listByMap(map);
+        return ResultUtil.success(roleCollection);
+    }
 
 
 }

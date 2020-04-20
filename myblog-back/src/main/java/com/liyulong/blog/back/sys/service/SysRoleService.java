@@ -30,6 +30,12 @@ public interface SysRoleService extends IService<SysRole> {
     void createRole(SysRole role);
 
     /**
+     * 更新角色
+     * @param role
+     */
+    void updateRole(SysRole role);
+
+    /**
      * 查询用户角色信息
      * @return
      */
@@ -43,12 +49,5 @@ public interface SysRoleService extends IService<SysRole> {
     PageUtils queryRoleByUserId(Long userId);
 
     void deleteByIds(Integer[] roleId) throws Exception;
-
-    /**
-     * 查询角色列表
-     * @param map
-     * @return
-     */
-    List<SysRole> getList(Map<String,Object> map);
 
 }
