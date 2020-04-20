@@ -32,6 +32,24 @@ public class ResultUtil {
     }
 
     /**
+     * 成功返回分页数据
+     * @param data 数据
+     * @param page 当前页
+     * @param size 每页条数
+     * @return
+     */
+    public static PageResult success(Object data,int page,int size){
+        PageResult result = new PageResult();
+        result.setCode(2000);
+        result.setFlag(true);
+        result.setMessage("成功");
+        result.setData(data);
+        result.setPage(page);
+        result.setSize(size);
+        return result;
+    }
+
+    /**
      * 失败不返回数据
      * @return
      */
@@ -70,6 +88,12 @@ public class ResultUtil {
         return result;
     }
 
+    /**
+     * 失败返回状态码与msg
+     * @param msg msg
+     * @param code 状态码
+     * @return
+     */
     public static  Result failure(String msg,int code){
         Result result = new Result();
         result.setFlag(false);

@@ -33,7 +33,7 @@ public interface SysRoleService extends IService<SysRole> {
      * 查询用户角色信息
      * @return
      */
-    PageUtils queryRoleByPage();
+    PageUtils queryRoleByPage(String roleName,Integer page,Integer size);
 
     /**
      * 查询user下面的所有角色信息
@@ -42,7 +42,7 @@ public interface SysRoleService extends IService<SysRole> {
      */
     PageUtils queryRoleByUserId(Long userId);
 
-    void deleteByIds(Integer[] roleId);
+    void deleteByIds(Integer[] roleId) throws Exception;
 
     /**
      * 查询角色列表

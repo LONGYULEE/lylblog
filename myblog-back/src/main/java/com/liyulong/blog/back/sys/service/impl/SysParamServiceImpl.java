@@ -26,12 +26,13 @@ import java.util.Map;
 public class SysParamServiceImpl extends ServiceImpl<SysParamMapper, SysParam> implements SysParamService {
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        String menuUrl = (String) params.get("menuUrl");
-        String type = (String) params.get("type");
-        IPage<SysParam> page = baseMapper.selectPage(new Query<SysParam>(params).getPage(),
-                new QueryWrapper<SysParam>().lambda()
-                        .eq(StringUtils.isNotBlank(menuUrl),SysParam::getMenuUrl,menuUrl)
-                        .like(StringUtils.isNotBlank(type),SysParam::getType,type));
-        return new PageUtils(page);
+//        String menuUrl = (String) params.get("menuUrl");
+//        String type = (String) params.get("type");
+//        IPage<SysParam> page = baseMapper.selectPage(new Query<SysParam>(params).getPage(),
+//                new QueryWrapper<SysParam>().lambda()
+//                        .eq(StringUtils.isNotBlank(menuUrl),SysParam::getMenuUrl,menuUrl)
+//                        .like(StringUtils.isNotBlank(type),SysParam::getType,type));
+//        return new PageUtils(page);
+        return null;
     }
 }

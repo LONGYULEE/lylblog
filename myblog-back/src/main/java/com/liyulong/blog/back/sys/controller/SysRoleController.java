@@ -2,13 +2,18 @@ package com.liyulong.blog.back.sys.controller;
 
 
 import com.liyulong.blog.back.sys.service.SysRoleService;
+import com.liyulong.blog.main.common.result.PageResult;
 import com.liyulong.blog.main.common.result.Result;
 import com.liyulong.blog.main.common.result.ResultUtil;
 import com.liyulong.blog.main.common.validator.AddGroup;
 import com.liyulong.blog.main.common.validator.ValidatorUtils;
 import com.liyulong.blog.main.pojo.sys.SysRole;
+import io.swagger.annotations.ApiImplicitParam;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -43,8 +48,13 @@ public class SysRoleController {
      * @return
      */
     @DeleteMapping("/deleteByIds")
-    public Result deleteRole(@RequestBody Integer[] roleIds){
-        roleService.deleteByIds(roleIds);
+    @RequiresPermissions("sys:role:delete")
+    public Result deleteRole(@RequestParam Integer[] roleIds) {
+        try {
+            roleService.deleteByIds(roleIds);
+        } catch (Exception e) {
+            return ResultUtil.failure(e.getMessage());
+        }
         return ResultUtil.success();
     }
 
@@ -53,8 +63,11 @@ public class SysRoleController {
      * @return
      */
     @GetMapping("/list")
-    public Result getRoleList(){
-        return ResultUtil.success();
+    @RequiresPermissions("sys:role:list")
+    public Result getRoleList(@RequestParam(required = false) String roleName,
+                                  @RequestParam(value = "page",required = false,defaultValue = "1") Integer page,
+                                  @RequestParam(value = "size",required = false,defaultValue = "10") Integer size){
+        return ResultUtil.success(roleService.queryRoleByPage(roleName, page, size));
     }
 
 
