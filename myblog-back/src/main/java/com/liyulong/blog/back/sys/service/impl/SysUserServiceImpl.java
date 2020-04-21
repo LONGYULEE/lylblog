@@ -48,13 +48,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     //TODO 此处查询需要修改
     @Override
-    public List<SysUser> queryPage(SysUser user,int page,int size) {
+    public PageUtils queryPage(SysUser user,int page,int size) {
         //超级管理员查询所有用户
         //其他用户查询自己创建的用户
         if(UserContext.getUserId() == 1){
-            Page<SysUser> userPage = new Page<>(page,size);
-            IPage<SysUser> userIPage = baseMapper.selectPage(userPage,null);
-            return userIPage.getRecords();
+            IPage<SysUser> userIPage = baseMapper.selectPage(new Query<SysUser>(page,size).getPage(),
+                    null);
+            return new PageUtils(userIPage);
         }
         return null;
     }

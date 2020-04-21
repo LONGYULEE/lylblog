@@ -113,8 +113,7 @@ public class SysUserController {
     public Result getList(@RequestBody(required = false) SysUser user,
                           @RequestParam(value = "page",required = false,defaultValue = "1") int page,
                           @RequestParam(value = "size",required = false,defaultValue = "10") int size){
-        List<SysUser> userList = userService.queryPage(user,page,size);
-        return ResultUtil.success(userList);
+        return ResultUtil.success(userService.queryPage(user,page,size));
     }
 
     /**

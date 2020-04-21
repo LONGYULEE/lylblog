@@ -8,6 +8,7 @@ import com.liyulong.blog.main.common.result.ResultUtil;
 import com.liyulong.blog.main.common.validator.AddGroup;
 import com.liyulong.blog.main.common.validator.ValidatorUtils;
 import com.liyulong.blog.main.pojo.sys.SysRole;
+import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +41,18 @@ public class SysRoleController {
     public Result createRole(@RequestBody SysRole role){
         ValidatorUtils.validateEntity(role, AddGroup.class);
         roleService.createRole(role);
+        return ResultUtil.success();
+    }
+
+    /**
+     * 修改角色信息
+     * @param role
+     * @return
+     */
+    @PostMapping("/update")
+    public Result updateRole(@RequestBody SysRole role){
+        ValidatorUtils.validateEntity(role);
+        roleService.updateById(role);
         return ResultUtil.success();
     }
 

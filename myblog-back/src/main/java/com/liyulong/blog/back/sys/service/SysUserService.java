@@ -31,7 +31,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param user
      * @return
      */
-    List<SysUser> queryPage(SysUser user,int page,int size);
+    PageUtils queryPage(SysUser user,int page,int size);
 
     /**
      * 更新密码
