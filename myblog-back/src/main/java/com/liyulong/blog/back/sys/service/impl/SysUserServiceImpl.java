@@ -19,6 +19,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +39,13 @@ import java.util.Map;
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
+    /**
+     * SysRoleServiceImpl中引入了SysUserServiceImpl
+     * 在初始化bean时spring不知道先创建哪个bean
+     * 在其中一个依赖中加上延迟加载
+     */
     @Autowired
+    @Lazy
     private SysRoleService sysRoleService;
 
     @Override
