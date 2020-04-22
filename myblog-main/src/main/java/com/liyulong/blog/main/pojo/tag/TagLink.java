@@ -1,9 +1,13 @@
 package com.liyulong.blog.main.pojo.tag;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -19,7 +23,9 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class TagLink extends Model<TagLink> {
+@ApiModel(value="TagLink对象", description="标签多对多维护表")
+@TableName("tag_link")
+public class TagLink implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,22 +38,24 @@ public class TagLink extends Model<TagLink> {
     /**
      * 标签Id
      */
+    @ApiModelProperty(value = "标签id")
     private Integer tagId;
 
     /**
      * 关联Id
      */
+    @ApiModelProperty(value = "关联id")
     private Integer linkId;
 
     /**
      * 所属类别：0文章，1阅读
      */
+    @ApiModelProperty(value = "类别：0文章，1阅读")
     private Integer type;
 
-
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
+    public TagLink(Integer tagId, Integer linkId, Integer type) {
+        this.tagId = tagId;
+        this.linkId = linkId;
+        this.type = type;
     }
-
 }

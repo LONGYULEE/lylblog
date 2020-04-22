@@ -2,7 +2,11 @@ package com.liyulong.blog.main.pojo.tag;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -20,7 +24,9 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Tag extends Model<Tag> {
+@ApiModel(value="Tag对象", description="标签")
+@TableName("tag")
+public class Tag implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,17 +36,13 @@ public class Tag extends Model<Tag> {
     /**
      * 标签名字
      */
+    @ApiModelProperty(value = "标签名称")
     private String name;
 
     /**
-     * 所属类别：0文章，1类别
+     * 所属类别：0文章，1阅读
      */
+    @ApiModelProperty(value = "类型：0文章，1阅读")
     private Integer type;
-
-
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
 
 }

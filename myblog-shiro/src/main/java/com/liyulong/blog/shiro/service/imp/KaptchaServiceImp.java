@@ -4,7 +4,6 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.liyulong.blog.main.common.constant.RedisConstant;
 import com.liyulong.blog.main.common.exception.MyException;
 import com.liyulong.blog.main.common.util.RedisUtil;
-import com.liyulong.blog.main.pojo.book.Book;
 import com.liyulong.blog.shiro.service.KaptchaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

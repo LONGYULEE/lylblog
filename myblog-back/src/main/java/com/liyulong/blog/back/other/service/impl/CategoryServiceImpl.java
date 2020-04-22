@@ -6,6 +6,9 @@ import com.liyulong.blog.main.mapper.other.CategoryMapper;
 import com.liyulong.blog.main.pojo.other.Category;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  *  服务实现类
@@ -17,4 +20,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
 
+    @Override
+    public List<Category> findByParentName(Map<String, Object> map) {
+        return null;
+    }
+
+    @Override
+    public List<Category> findByParentId(Integer id) {
+        return null;
+    }
 }

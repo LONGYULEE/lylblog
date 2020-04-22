@@ -17,4 +17,18 @@ import org.springframework.stereotype.Controller;
 @RequestMapping("/category")
 public class CategoryController {
 
+    //列表
+
+    //树状列表
+
+    //信息
+
+    //保存
+
+    //数据校验
+
+    //修改
+
+    //删除
+
 }
