@@ -27,9 +27,7 @@ public class SysParamServiceImpl extends ServiceImpl<SysParamMapper, SysParam> i
     public PageUtils queryPage(Map<String, Object> map) {
         String menuUrl = (String) map.get("menuUrl");
         String type = (String) map.get("type");
-        int page1 = (int) map.get("page");
-        int size = (int) map.get("size");
-        IPage<SysParam> page = baseMapper.selectPage(new Query<SysParam>(page1,size).getPage(),
+        IPage<SysParam> page = baseMapper.selectPage(new Query<SysParam>(map).getPage(),
                 new QueryWrapper<SysParam>().lambda()
                         .eq(StringUtils.isNotBlank(menuUrl),SysParam::getMenuUrl,menuUrl)
                         .like(StringUtils.isNotBlank(type),SysParam::getType,type));

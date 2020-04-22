@@ -20,16 +20,31 @@ public class Query<T> implements Serializable {
     private Page<T> page;
 
     //当前页
-    private int currPage = 1;
+    private int currPage;
 
     //每页条数
-    private int size = 10;
+    private int size;
 
+    //有传入currPage和size的构造方法
     public Query(int currPage,int size){
-        //当前页
         this.currPage = currPage;
         this.size = size;
         this.page = new Page<>(currPage,size);
+    }
+
+    //没有传入currPage和size的构造方法
+    public Query(Map<String,Object> map){
+        try {
+            int page = (int) map.get("page");
+            int size = (int) map.get("size");
+            this.currPage = page;
+            this.size = size;
+            this.page = new Page<>(currPage,size);
+        } catch (NullPointerException e) {
+            this.currPage = 1;
+            this.size = 10;
+            this.page = new Page<>(currPage,size);
+        }
     }
 
 }

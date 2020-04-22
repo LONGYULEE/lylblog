@@ -36,7 +36,8 @@ public class SysParamController {
      * @return
      */
     @GetMapping("/list")
-    public Result getParamList(@RequestParam Map<String,Object> map){
+    @RequiresPermissions("sys:param:list")
+    public Result getParamList(@RequestBody Map<String,Object> map){
         PageUtils page = paramService.queryPage(map);
         return ResultUtil.success(page);
     }
