@@ -9,12 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>myblog-index</artifactId>
+    <artifactId>myblog-manage</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.liyulong</groupId>
-            <artifactId>myblog-manage</artifactId>
+            <artifactId>myblog-shiro</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

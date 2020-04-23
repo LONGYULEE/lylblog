@@ -11,7 +11,7 @@
     <modules>
         <module>myblog-main</module>
         <module>myblog-shiro</module>
-        <module>myblog-back</module>
+        <module>myblog-manage</module>
         <module>myblog-index</module>
         <module>myblog-portal</module>
     </modules>
