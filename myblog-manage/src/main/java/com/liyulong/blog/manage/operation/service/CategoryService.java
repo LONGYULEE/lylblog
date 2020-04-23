@@ -20,8 +20,8 @@ public interface CategoryService extends IService<Category> {
     List<Category> findAllWithParentName(Map<String,Object> map);
 
     //根据负类别查询子类别
-    List<Category> findByParentId(Integer id);
+    List<Category> findByParentId(Integer parentId);
 
     //根据类别id数组查询类别数组
-//    String
+    String renderCategoryArr(String categoryIds, List<Category> categoryList);
 }
