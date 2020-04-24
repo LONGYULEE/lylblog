@@ -2,7 +2,10 @@ package com.liyulong.blog.main.mapper.operation;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.liyulong.blog.main.pojo.operation.Recommend;
+import com.liyulong.blog.main.pojo.operation.vo.RecommendVO;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +18,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface RecommendMapper extends BaseMapper<Recommend> {
 
+    List<RecommendVO> listSeclect();
 }

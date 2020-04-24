@@ -11,5 +11,9 @@
         <result column="title" property="title" />
         <result column="top" property="top" />
     </resultMap>
+    <select id="listSeclect" resultType="com.liyulong.blog.main.pojo.operation.vo.RecommendVO">
+        select a.id as linkId, a.title, 0 as type
+        from article a
+    </select>
 
 </mapper>

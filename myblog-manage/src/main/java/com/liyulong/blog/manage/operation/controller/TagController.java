@@ -112,7 +112,6 @@ public class TagController {
             }
         }
         tagService.removeByIds(Arrays.asList(ids));
-
         return ResultUtil.success();
     }
 
