@@ -52,7 +52,7 @@ public class SysMenuController {
      */
     @GetMapping("/list")
     @RequiresPermissions("sys:menu:list")
-    public List<SysMenu> list(){
+    public Result list(){
         List<SysMenu> menuList = menuService.list(null);
         menuList.forEach(item -> {
             SysMenu parentMenu = menuService.getById(item.getParentId());
@@ -60,7 +60,7 @@ public class SysMenuController {
                 item.setParentName(parentMenu.getName());
             }
         });
-        return menuList;
+        return ResultUtil.success(menuList);
     }
 
     //todo

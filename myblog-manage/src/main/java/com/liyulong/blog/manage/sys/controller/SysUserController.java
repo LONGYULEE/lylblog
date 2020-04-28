@@ -102,14 +102,13 @@ public class SysUserController {
 
     /**
      * 查看用户列表
-     * @param user
+     * @param map username,page,size
      * @return
      */
     @GetMapping("/list")
-    public Result getList(@RequestBody(required = false) SysUser user,
-                          @RequestParam(value = "page",required = false,defaultValue = "1") int page,
-                          @RequestParam(value = "size",required = false,defaultValue = "10") int size){
-        return ResultUtil.success(userService.queryPage(user,page,size));
+    @RequiresPermissions("sys:user:list")
+    public Result getList(@RequestParam Map<String,Object> map){
+        return ResultUtil.success(userService.queryPage(map));
     }
 
     /**

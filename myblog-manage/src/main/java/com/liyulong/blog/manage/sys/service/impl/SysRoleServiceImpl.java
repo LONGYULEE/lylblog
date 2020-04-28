@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -71,15 +72,16 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    public PageUtils queryRoleByPage(String roleName,Integer page,Integer size) {
+    public PageUtils queryRoleByPage(Map<String,Object> map) {
+        String roleName = (String) map.get("roleName");
         //管理员查询所有角色信息
         if(UserContext.getUserId() == 1){
-            IPage<SysRole> iPage = baseMapper.selectPage(new Query<SysRole>(page,size).getPage(),
+            IPage<SysRole> iPage = baseMapper.selectPage(new Query<SysRole>(map).getPage(),
                     new QueryWrapper<SysRole>().lambda()
                             .like(StringUtils.isNotBlank(roleName),SysRole::getRoleName,roleName));
             return new PageUtils(iPage);
         }
-        IPage<SysRole> iPage = baseMapper.selectPage(new Query<SysRole>(page,size).getPage(),
+        IPage<SysRole> iPage = baseMapper.selectPage(new Query<SysRole>(map).getPage(),
                 new QueryWrapper<SysRole>().lambda()
                         .eq(SysRole::getCreateUserId,UserContext.getUserId()));
         return new PageUtils(iPage);

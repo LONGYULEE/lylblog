@@ -35,8 +35,8 @@ public class Query<T> implements Serializable {
     //没有传入currPage和size的构造方法
     public Query(Map<String,Object> map){
         try {
-            int page = (int) map.get("page");
-            int size = (int) map.get("size");
+            int page = Integer.parseInt((String) map.get("page"));
+            int size = Integer.parseInt((String) map.get("size"));
             this.currPage = page;
             this.size = size;
             this.page = new Page<>(currPage,size);

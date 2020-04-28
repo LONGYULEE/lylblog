@@ -15,6 +15,7 @@ import com.liyulong.blog.main.mapper.sys.SysUserMapper;
 import com.liyulong.blog.main.pojo.sys.SysRole;
 import com.liyulong.blog.main.pojo.sys.SysUser;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -50,17 +52,22 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return baseMapper.queryAllMenuId(userId);
     }
 
-    //TODO 此处查询需要修改
     @Override
-    public PageUtils queryPage(SysUser user,int page,int size) {
+    public PageUtils queryPage(Map<String,Object> map) {
+        String username = (String) map.get("username");
         //超级管理员查询所有用户
         //其他用户查询自己创建的用户
         if(UserContext.getUserId() == 1){
-            IPage<SysUser> userIPage = baseMapper.selectPage(new Query<SysUser>(page,size).getPage(),
-                    null);
+            IPage<SysUser> userIPage = baseMapper.selectPage(new Query<SysUser>(map).getPage(),
+                    new QueryWrapper<SysUser>().lambda()
+                            .like(StringUtils.isNotEmpty(username), SysUser::getUsername,username));
             return new PageUtils(userIPage);
         }
-        return null;
+        IPage<SysUser> userIPage = baseMapper.selectPage(new Query<SysUser>(map).getPage(),
+                new QueryWrapper<SysUser>().lambda()
+                        .eq(SysUser::getCreateUserId,UserContext.getUserId())
+                        .like(StringUtils.isNotEmpty(username), SysUser::getUsername,username));
+        return new PageUtils(userIPage);
     }
 
     @Override

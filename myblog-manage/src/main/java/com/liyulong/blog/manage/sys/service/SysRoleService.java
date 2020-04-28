@@ -39,7 +39,7 @@ public interface SysRoleService extends IService<SysRole> {
      * 查询用户角色信息
      * @return
      */
-    PageUtils queryRoleByPage(String roleName,Integer page,Integer size);
+    PageUtils queryRoleByPage(Map<String,Object> map);
 
     /**
      * 查询user下面的所有角色信息

@@ -77,10 +77,8 @@ public class SysRoleController {
      */
     @GetMapping("/list")
     @RequiresPermissions("sys:role:list")
-    public Result getRoleListByPage(@RequestParam(required = false) String roleName,
-                                  @RequestParam(value = "page",required = false,defaultValue = "1") Integer page,
-                                  @RequestParam(value = "size",required = false,defaultValue = "10") Integer size){
-        return ResultUtil.success(roleService.queryRoleByPage(roleName, page, size));
+    public Result getRoleListByPage(@RequestParam Map<String,Object> map){
+        return ResultUtil.success(roleService.queryRoleByPage(map));
     }
 
     @GetMapping("/select")
