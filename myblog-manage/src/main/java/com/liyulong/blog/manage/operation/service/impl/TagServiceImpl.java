@@ -10,6 +10,7 @@ import com.liyulong.blog.main.mapper.operation.TagMapper;
 import com.liyulong.blog.main.pojo.operation.Tag;
 import com.liyulong.blog.manage.operation.service.TagService;
 import com.liyulong.blog.main.pojo.operation.TagLink;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -33,8 +34,10 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+        String name = (String) params.get("name");
         IPage<Tag> iPage = baseMapper.selectPage(new Query<Tag>(params).getPage(),
-                new QueryWrapper<Tag>().lambda());
+                new QueryWrapper<Tag>().lambda()
+                        .like(StringUtils.isNotEmpty(name), Tag::getName,name));
         return new PageUtils(iPage);
     }
 
