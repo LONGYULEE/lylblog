@@ -8,8 +8,14 @@ import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
-import org.springframework.web.multipart.MultipartFile;
+import com.qiniu.util.Base64;
+import com.qiniu.util.StringMap;
+import com.qiniu.util.UrlSafeBase64;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -20,6 +26,12 @@ public class QiNiuUtil{
     private static final String SECRETKEY = "s2VhE_C0XFEyRcncTejjaSNZM2EPkoY5e3aaF6-_";
     private static final String BUCKET = "lihanlumyblog";
     private static final Long EXPIRETIME = -1L;
+    private static final String DOMAIN = "http://q8ig3m2zn.bkt.clouddn.com";
+
+    public static String getUpToken() {
+        Auth auth = Auth.create(ACCESSKEY,SECRETKEY);
+        return auth.uploadToken(BUCKET, null, EXPIRETIME, new StringMap().put("insertOnly", 1));
+    }
 
     /**
      * 上传本地文件
@@ -57,15 +69,35 @@ public class QiNiuUtil{
             return true;
         } catch (QiniuException ex) {
             Response r = ex.response;
-            System.err.println(r.toString());
+            System.out.println(r.toString());
             try {
-                System.err.println(r.bodyString());
+                System.out.println(r.bodyString());
                 return false;
             } catch (QiniuException ex2) {
                 //ignore
                 return false;
             }
         }
+    }
+
+
+    public static String put64image(byte[] base64, String key) throws Exception{
+        String file64 = Base64.encodeToString(base64, 0);
+        Integer l = base64.length;
+        String url = "http://up-z2.qiniup.com/putb64/" + l + "/key/"+ UrlSafeBase64.encodeToString(key);
+        //非华东空间需要根据注意事项 1 修改上传域名
+        RequestBody rb = RequestBody.create(null, file64);
+        Request request = new Request.Builder().
+                url(url).
+                addHeader("Content-Type", "application/octet-stream")
+                .addHeader("Authorization", "UpToken " + getUpToken())
+                .post(rb).build();
+        //System.out.println(request.headers());
+        OkHttpClient client = new OkHttpClient();
+        okhttp3.Response response = client.newCall(request).execute();
+        System.out.println(response);
+        //如果不需要添加图片样式，使用以下方式
+        return DOMAIN + key;
     }
 
     /**
