@@ -113,21 +113,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return baseMapper.queryUserRole(userId);
     }
 
-    @Override
-    public void uploadAvatar(String path) throws UnsupportedEncodingException {
-        //上传图片到七牛云
-        boolean b = QiNiuUtil.upload(path, "avatar:" + UserContext.getUserId(), false);
-        if(b){
-            //上传成功后返回图片的云端地址
-            String fileUrl = QiNiuUtil.fileUrl("avatar:" + UserContext.getUserId());
-            //截取 / 之后的字符串
-            String s = fileUrl.substring(fileUrl.indexOf("/"));
-            //截取 ? 之前的字符串
-            String s1 = s.substring(0, s.indexOf("?"));
-            baseMapper.updateAvatarById("http://q8ig3m2zn.bkt.clouddn.com" + s1,UserContext.getUserId());
-        }
-    }
-
     /**
      * 密码加密
      * @param password

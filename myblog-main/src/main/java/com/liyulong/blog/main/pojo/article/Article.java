@@ -62,15 +62,8 @@ public class Article extends BaseEntity implements Serializable {
     /**
      * 文章内容
      */
-    @ApiModelProperty(value = "文章内容")
-    @NotBlank(message="博文内容不能为空", groups = {AddGroup.class, UpdateGroup.class})
-    private String content;
-
-    /**
-     * html的content
-     */
-    @ApiModelProperty(value = "格式化后的内容")
-    private String contentFormat;
+    @ApiModelProperty(value = "文章链接")
+    private String url;
 
     /**
      * 阅读量

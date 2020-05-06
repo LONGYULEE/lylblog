@@ -3,12 +3,10 @@ package com.liyulong.blog.manage.article.controller;
 
 import com.liyulong.blog.main.common.result.Result;
 import com.liyulong.blog.main.common.result.ResultUtil;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.liyulong.blog.main.common.util.QiNiuUtil;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,10 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/admin/sys/article")
 public class ArticleController {
 
-    @PostMapping("/imageUpload")
-    public Result imgUpload(HttpServletRequest request){
-        System.out.println(request.toString());
-        return ResultUtil.success();
+    @GetMapping("/getUpToken")
+    public Result getUpToken(){
+        String upToken = QiNiuUtil.getUpToken();
+        return ResultUtil.success(upToken);
     }
 
 }

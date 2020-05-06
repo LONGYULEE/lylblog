@@ -135,12 +135,4 @@ public class SysUserController {
         userService.updatePassword(userId, oldPassword, newPssword);
         return ResultUtil.success();
     }
-
-    //上传用户头像
-    @GetMapping("/uploadAvatar")
-    public Result uploadAvatar(@RequestParam String path) throws UnsupportedEncodingException {
-        userService.uploadAvatar(path);
-        return ResultUtil.success();
-    }
-
 }

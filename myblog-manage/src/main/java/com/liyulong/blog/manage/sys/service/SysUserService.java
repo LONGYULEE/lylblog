@@ -61,10 +61,4 @@ public interface SysUserService extends IService<SysUser> {
      */
     List<SysRole> queryUserRole(Integer userId);
 
-
-    /**
-     * 上传用户头像
-     * @param path 头像路径
-     */
-    void uploadAvatar(String path) throws UnsupportedEncodingException;
 }
