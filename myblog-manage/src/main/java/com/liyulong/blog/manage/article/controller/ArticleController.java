@@ -22,10 +22,25 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/admin/sys/article")
 public class ArticleController {
 
+    /**
+     * 获取七牛云上传token
+     * @return token
+     */
     @GetMapping("/getUpToken")
     public Result getUpToken(){
         String upToken = QiNiuUtil.getUpToken();
         return ResultUtil.success(upToken);
+    }
+
+    /**
+     * 删除七牛云中的文件
+     * @param key 文件名
+     * @return 是否删除成功
+     */
+    @GetMapping("/deleteFile")
+    public Result deleteFile(@RequestParam String key){
+        Boolean b = QiNiuUtil.deleteFile(key);
+        return ResultUtil.success(b);
     }
 
 }

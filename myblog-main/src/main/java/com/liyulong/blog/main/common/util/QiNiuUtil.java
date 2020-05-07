@@ -3,6 +3,7 @@ package com.liyulong.blog.main.common.util;
 import com.google.gson.Gson;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
+import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
@@ -28,9 +29,43 @@ public class QiNiuUtil{
     private static final Long EXPIRETIME = -1L;
     private static final String DOMAIN = "http://q8ig3m2zn.bkt.clouddn.com";
 
+    /**
+     * 获取七牛云权限
+     * @return
+     */
+    public static Auth getAuth(){
+        return Auth.create(ACCESSKEY,SECRETKEY);
+    }
+
+    /**
+     * 获取上传token
+     * @return token
+     */
     public static String getUpToken() {
-        Auth auth = Auth.create(ACCESSKEY,SECRETKEY);
-        return auth.uploadToken(BUCKET, null, EXPIRETIME, new StringMap().put("insertOnly", 1));
+        StringMap putPolicy = new StringMap();
+        long expireSeconds = 3600;
+        putPolicy.put("returnBody", "{\"key\":\"$(key)\",\"hash\":\"$(etag)\",\"bucket\":\"$(bucket)\",\"fsize\":$(fsize)}");
+        return getAuth().uploadToken(BUCKET, null, expireSeconds, putPolicy);
+    }
+
+    /**
+     * 删除空间中指定文件
+     * @param key 文件名
+     * @return 返回结果
+     */
+    public static Boolean deleteFile(String key){
+        //构造一个带指定 Region 对象的配置类
+        Configuration cfg = new Configuration(Region.region2());
+        BucketManager bucketManager = new BucketManager(getAuth(), cfg);
+        try {
+            bucketManager.delete(BUCKET, key);
+            return true;
+        } catch (QiniuException ex) {
+            //如果遇到异常，说明删除失败
+            System.err.println(ex.code());
+            System.err.println(ex.response.toString());
+            return false;
+        }
     }
 
 
