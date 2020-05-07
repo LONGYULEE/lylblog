@@ -62,8 +62,9 @@ public class Article extends BaseEntity implements Serializable {
     /**
      * 文章内容
      */
-    @ApiModelProperty(value = "文章链接")
-    private String url;
+    @ApiModelProperty(value = "文章内容")
+    @NotBlank(message="博文内容不能为空", groups = {AddGroup.class, UpdateGroup.class})
+    private String content;
 
     /**
      * 阅读量
