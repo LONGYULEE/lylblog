@@ -23,9 +23,11 @@ import java.net.URLEncoder;
 
 public class QiNiuUtil{
 
+
+    //todo：此处变量通过properties方式引入，方便后期更改
     private static final String ACCESSKEY = "HH52UeWrsvYD2Ktlrms2VkqQVXwAEpbDlgaFMYLC";
     private static final String SECRETKEY = "s2VhE_C0XFEyRcncTejjaSNZM2EPkoY5e3aaF6-_";
-    private static final String BUCKET = "lihanlumyblog";
+    private static final String BUCKET = "hanlublog";
     private static final Long EXPIRETIME = -1L;
     private static final String DOMAIN = "http://q8ig3m2zn.bkt.clouddn.com";
 
