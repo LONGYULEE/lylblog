@@ -9,7 +9,6 @@
         <result column="description" property="description" />
         <result column="author" property="author" />
         <result column="content" property="content" />
-        <result column="content_format" property="contentFormat" />
         <result column="read_num" property="readNum" />
         <result column="comment_num" property="commentNum" />
         <result column="like_num" property="likeNum" />
@@ -22,5 +21,65 @@
         <result column="publish" property="publish" />
         <result column="top" property="top" />
     </resultMap>
+
+    <resultMap id="WithTagList" type="com.liyulong.blog.main.pojo.article.dto.ArticleDTO" extends="BaseResultMap">
+        <association
+                property="tagList" column="{linkId=id, type=type}"
+                select="cn.dblearn.blog.mapper.operation.TagMapper.listByLinkId"/>
+    </resultMap>
+
+    <sql id="homeArticleColumn">
+        id,title,description,author,read_num,like_num,cover,cover_type,create_time,top
+    </sql>
+
+    <sql id="manageArticleColumn">
+       id,title,description,author,read_num,like_num,cover,cover_type,create_time,top,publish,recommend,category_id
+    </sql>
+
+    <update id="updateReadNum">
+        update article set read_num = read_num + 1 where id = #{id}
+    </update>
+
+    <update id="updateLikeNum">
+        update article set like_num = like_num + 1 where id = #{id}
+    </update>
+
+    <select id="checkByCategory" resultType="integer">
+        select count(*) from article where category_id = #{categoryId}
+    </select>
+
+    <select id="listArticleVo" resultType="com.liyulong.blog.main.pojo.article.vo.ArticleVO">
+        select <include refid="manageArticleColumn"/> from article
+        <where>
+            <if test="params.title!=null and params.title !=''">
+                and title like concat('%',#{params.title},'%')
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+    <select id="queryPageCondition" resultType="com.liyulong.blog.main.pojo.article.vo.ArticleVO">
+        select <include refid="homeArticleColumn"/> , 0 as `type` from article
+        <where>
+            <if test="params.recommend != null and params.recommend != ''">
+                and recommend = true
+            </if>
+            <if test="params.categoryId !=null and params.categoryId != ''">
+                and find_in_set(#{params.categoryId},category_id)
+            </if>
+            and publish = true
+        </where>
+        <if test="params.recommend !=null and params.recommend != ''">
+            order by top desc, recommend desc
+        </if>
+        <if test="params.latest !=null and params.latest != ''">
+            order by top desc,create_time desc
+        </if>
+        <if test="params.favorite !=null and params.favorite != ''">
+            order by top desc,like_num desc
+        </if>
+    </select>
+    <select id="getSimpleArticleVo" resultType="com.liyulong.blog.main.pojo.article.vo.ArticleVO">
+        select <include refid="homeArticleColumn"/> from article where id = #{id}
+    </select>
 
 </mapper>
