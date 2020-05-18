@@ -36,7 +36,7 @@ import java.util.Set;
  * @since 2020-03-24
  */
 @RestController
-@RequestMapping("/admin/sys/article")
+@RequestMapping("/admin/article")
 @CacheConfig(cacheNames ={RedisCacheNames.RECOMMEND,RedisCacheNames.TAG,RedisCacheNames.ARTICLE,RedisCacheNames.TIMELINE})
 public class ArticleController {
 
