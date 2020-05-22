@@ -8,6 +8,12 @@
         <result column="name" property="name" />
         <result column="type" property="type" />
     </resultMap>
+
+    <delete id="deleteTagLink">
+        delete from tag_link tl
+        where tl.link_id = #{linkId} and tl.type = #{type}
+    </delete>
+
     <select id="listByLinkId" resultType="com.liyulong.blog.main.pojo.operation.Tag">
         select t.* from tag t left join tag_link tl on tl.tag_id = t.id
         <where>
@@ -18,6 +24,14 @@
                 and t.type = #{type}
             </if>
         </where>
+    </select>
+
+    <select id="listTagVo" resultType="com.liyulong.blog.main.pojo.operation.vo.TagVO">
+        select t.name,sum(t.num) from (
+            select distinct t.type,t.name,(select count(*) from tag_link tl2 where tl2.tag_id = t.id) as num
+            from tag t left join tag_link tl1
+            on t.tag_id = tl1.tag_id and t.type = tl1.type) t
+        group by t.name
     </select>
 
 

@@ -16,6 +16,15 @@ public class ResultMap extends HashMap<String,Object> {
     }
 
     /**
+     * 成功，并返回一个 ResultMap 对象，
+     * 可向此 ResultMap对象中添加数据 （重写的 put 方法）
+     * @return ResultMap 对象
+     */
+    public static ResultMap ok(){
+        return new ResultMap();
+    }
+
+    /**
      * 默认错误
      * @return 返回未知错误
      */
