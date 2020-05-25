@@ -37,19 +37,19 @@ public class TagLink implements Serializable {
     /**
      * 标签Id
      */
-    @ApiModelProperty(value = "标签id")
+    @ApiModelProperty(value = "标签id",example = "0")
     private Integer tagId;
 
     /**
      * 关联Id
      */
-    @ApiModelProperty(value = "关联id")
+    @ApiModelProperty(value = "关联id",example = "0")
     private Integer linkId;
 
     /**
      * 所属类别：0文章，1阅读
      */
-    @ApiModelProperty(value = "类别：0文章，1阅读")
+    @ApiModelProperty(value = "类别：0文章，1阅读",example = "0")
     private Integer type;
 
     public TagLink(Integer tagId, Integer linkId, Integer type) {

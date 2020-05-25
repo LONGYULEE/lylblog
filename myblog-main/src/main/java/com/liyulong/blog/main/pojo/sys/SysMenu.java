@@ -24,7 +24,7 @@ public class SysMenu implements Serializable {
     @TableId(value = "menu_id",type = IdType.AUTO)
     private Integer menuId;
 
-    @ApiModelProperty(value = "父菜单ID，一级菜单为0")
+    @ApiModelProperty(value = "父菜单ID，一级菜单为0",example = "0")
     private Integer parentId;
 
     @ApiModelProperty(value = "菜单名称")
@@ -38,13 +38,13 @@ public class SysMenu implements Serializable {
     @TableField(strategy = FieldStrategy.IGNORED)
     private String perms;
 
-    @ApiModelProperty(value = "菜单类型：0：目录，1：菜单，2：按钮")
+    @ApiModelProperty(value = "菜单类型：0：目录，1：菜单，2：按钮",example = "0")
     private Integer type;
 
     @ApiModelProperty(value = "菜单图标")
     private String icon;
 
-    @ApiModelProperty(value = "排序")
+    @ApiModelProperty(value = "排序",example = "0")
     private Integer orderNum;
 
     //父菜单的名称

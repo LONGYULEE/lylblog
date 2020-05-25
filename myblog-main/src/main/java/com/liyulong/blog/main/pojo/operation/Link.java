@@ -30,7 +30,7 @@ public class Link implements Serializable {
      * 主键
      */
     @TableId(value = "id", type = IdType.AUTO)
-    @ApiModelProperty(value = "主键")
+//    @ApiModelProperty(value = "主键")
     private Integer id;
 
     /**

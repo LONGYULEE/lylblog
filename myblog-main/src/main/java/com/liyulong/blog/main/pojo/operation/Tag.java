@@ -40,7 +40,7 @@ public class Tag implements Serializable {
     /**
      * 所属类别：0文章，1阅读
      */
-    @ApiModelProperty(value = "类型：0文章，1阅读")
+    @ApiModelProperty(value = "类型：0文章，1阅读",example = "0")
     private Integer type;
 
 }

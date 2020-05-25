@@ -30,25 +30,24 @@ public class Recommend implements Serializable {
      * 主键
      */
     @TableId(value = "id", type = IdType.AUTO)
-    @ApiModelProperty(value = "主键")
     private Integer id;
 
     /**
      * 推荐的文章Id
      */
-    @ApiModelProperty(value = "推荐文章id")
+    @ApiModelProperty(value = "推荐文章id",example = "0")
     private Integer linkId;
 
     /**
      * 推荐类型
      */
-    @ApiModelProperty(value = "推荐类型")
+    @ApiModelProperty(value = "推荐类型",example = "0")
     private Integer type;
 
     /**
      * 顺序
      */
-    @ApiModelProperty(value = "推荐顺序")
+    @ApiModelProperty(value = "推荐顺序",example = "0")
     private Integer orderNum;
 
     /**

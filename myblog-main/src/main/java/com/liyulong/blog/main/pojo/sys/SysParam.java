@@ -26,7 +26,7 @@ public class SysParam implements Serializable {
     private Integer id;
 
     @NotNull(message = "参数键不能为空")
-    @ApiModelProperty(value = "参数键")
+    @ApiModelProperty(value = "参数键",example = "0")
     private Integer parKey;
 
     @ApiModelProperty(value = "参数值")

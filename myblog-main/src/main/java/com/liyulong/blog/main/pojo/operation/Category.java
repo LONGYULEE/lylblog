@@ -46,14 +46,14 @@ public class Category implements Serializable {
     /**
      * 类型：0文章，1阅读
      */
-    @ApiModelProperty(value = "类型")
+    @ApiModelProperty(value = "类型",example = "0")
     @NotBlank(message = "类型不能为空")
     private Integer type;
 
     /**
      * 级别
      */
-    @ApiModelProperty(value = "级别")
+    @ApiModelProperty(value = "级别",example = "0")
     @NotBlank(message = "级别不能为空")
     @TableField(value = "`rank`") //rank为关键字
     private Integer rank;
@@ -61,7 +61,7 @@ public class Category implements Serializable {
     /**
      * 父主键
      */
-    @ApiModelProperty("父菜单id")
+    @ApiModelProperty(value = "父菜单id",example = "0")
     @NotNull(message = "父菜单id不能为空")
     private Integer parentId;
 

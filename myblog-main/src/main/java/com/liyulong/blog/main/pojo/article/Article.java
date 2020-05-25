@@ -69,25 +69,25 @@ public class Article extends BaseEntity implements Serializable {
     /**
      * 阅读量
      */
-    @ApiModelProperty(value = "阅读量")
+    @ApiModelProperty(value = "阅读量",example = "0")
     private Integer readNum;
 
     /**
      * 评论量
      */
-    @ApiModelProperty(value = "评论量")
+    @ApiModelProperty(value = "评论量",example = "0")
     private Integer commentNum;
 
     /**
      * 点赞量
      */
-    @ApiModelProperty(value = "点赞量")
+    @ApiModelProperty(value = "点赞量",example = "0")
     private Integer likeNum;
 
     /**
      * 文章展示类别,1:普通，2：大图片，3：无图片
      */
-    @ApiModelProperty(value = "文章展示类别,0:普通，1：大图片，2：无图片")
+    @ApiModelProperty(value = "文章展示类别,0:普通，1：大图片，2：无图片",example = "0")
     private Integer coverType;
 
     /**
@@ -111,7 +111,7 @@ public class Article extends BaseEntity implements Serializable {
     /**
      * 发布状态
      */
-    @ApiModelProperty(value = "发布状态")
+    @ApiModelProperty(value = "发布状态",example = "0")
     private Integer publish;
 
     /**

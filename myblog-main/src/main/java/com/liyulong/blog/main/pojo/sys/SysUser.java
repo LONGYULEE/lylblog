@@ -26,7 +26,7 @@ public class SysUser implements Serializable {
 
     private static final long serialVersionUID = -6646487795344909751L;
 
-    @ApiModelProperty(value = "主键") //用在出入参数对象的字段上
+    //@ApiModelProperty(value = "主键") //用在出入参数对象的字段上
     @TableId(value = "user_id",type = IdType.AUTO)
     private Integer userId;
 
@@ -46,10 +46,10 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "密码盐值")
     private String salt;
 
-    @ApiModelProperty(value = "创建人id")
+    @ApiModelProperty(value = "创建人id",example = "0")
     private Integer createUserId;
 
-    @ApiModelProperty(value = "0:禁用，1正常")
+    @ApiModelProperty(value = "0:禁用，1正常",example = "0")
     private Integer status;
 
     @ApiModelProperty(value = "创建时间")

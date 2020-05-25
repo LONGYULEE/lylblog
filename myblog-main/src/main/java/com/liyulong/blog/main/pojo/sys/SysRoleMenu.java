@@ -21,10 +21,10 @@ public class SysRoleMenu implements Serializable {
     @TableId(value = "id",type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty(value = "用户ID")
+    @ApiModelProperty(value = "用户ID",example = "0")
     private Integer roleId;
 
-    @ApiModelProperty(value = "角色ID")
+    @ApiModelProperty(value = "角色ID",example = "0")
     private Integer menuId;
 
 }

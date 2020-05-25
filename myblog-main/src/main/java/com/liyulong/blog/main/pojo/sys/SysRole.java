@@ -33,7 +33,7 @@ public class SysRole implements Serializable {
     @ApiModelProperty(value = "备注")
     private String remark;
 
-    @ApiModelProperty(value = "创建者Id")
+    @ApiModelProperty(value = "创建者Id",example = "0")
     private Integer createUserId;
 
     @ApiModelProperty(value = "创建时间")
