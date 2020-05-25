@@ -3,8 +3,15 @@ package com.liyulong.blog.main.common.constant;
 /**
  * RedisCacheNames
  * 缓存的名称静态变量
- * 并不是 redis 缓存，是缓存在本地的
  * 主要三个注解详情 http://www.manongjc.com/article/62169.html
+ * 如果没有整合redis，会缓存到本地中
+ *
+ * 加入redis的starter后springboot会自动识别并使用RedisCacheConfiguration
+ * 将数据缓存到redis中
+ * <dependency>
+ *             <groupId>org.springframework.boot</groupId>
+ *             <artifactId>spring-boot-starter-data-redis</artifactId>
+ * </dependency>
  */
 public class RedisCacheNames {
 
