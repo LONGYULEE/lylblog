@@ -1,23 +1,34 @@
 package com.liyulong.blog.main.config;
 
 import com.google.common.base.Predicates;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.ApiKey;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * swagger的配置类
  */
 @Configuration
-public class SwaggerConfig {
+public class SwaggerConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 解决 SWAGGER 404报错
+        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
 
     /**
      * 创建API应用
@@ -41,7 +52,9 @@ public class SwaggerConfig {
                         RequestHandlerSelectors.basePackage("com.liyulong.blog.manage.sys.controller")
                 ))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                // 配置header参数
+                .securitySchemes(security());
     }
 
     @Bean("index")
@@ -63,16 +76,6 @@ public class SwaggerConfig {
                 .build();
     }
 
-//    public Docket createRestApi(){
-//        return new Docket(DocumentationType.SWAGGER_2)
-//                .apiInfo(apiInfo())
-//                .select()
-//                //在类上添加@APIOperation注解，生成接口文档
-//                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
-//                .paths(PathSelectors.any())
-//                .build();
-//    }
-
     /**
      * 创建该API的基本信息（这些基本信息会展现在文档页面中）
      * 访问地址：http://项目实际地址/swagger-ui.html
@@ -90,6 +93,13 @@ public class SwaggerConfig {
                 .title("myblog")
                 .description("myblog博客前台接口文档")
                 .build();
+    }
+
+    //swagger输入token
+    private List<ApiKey> security() {
+        return newArrayList(
+                new ApiKey("token", "token", "header")
+        );
     }
 
 }
