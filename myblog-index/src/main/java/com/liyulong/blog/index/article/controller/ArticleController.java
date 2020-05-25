@@ -6,6 +6,7 @@ import com.liyulong.blog.main.common.result.Result;
 import com.liyulong.blog.main.common.result.ResultUtil;
 import com.liyulong.blog.main.common.util.PageUtils;
 import com.liyulong.blog.main.pojo.article.vo.ArticleVO;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.Map;
 
-@RestController("articlePortalController")
+@ApiOperation("ArticleIndexController")
+@RestController("articleIndexController")
 @CacheConfig(cacheNames = {RedisCacheNames.ARTICLE})
 public class ArticleController {
 
