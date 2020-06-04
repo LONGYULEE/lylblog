@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.data.elasticsearch.annotations.Document;
 
@@ -26,10 +27,9 @@ import java.time.LocalDateTime;
  * @since 2020-03-24
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @ApiModel(value="BlogArticle对象", description="文章")
-@Document(indexName = "dbblog",type = "article")
+@Document(indexName = "myblog",type = "article")
+@NoArgsConstructor
 public class Article extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
