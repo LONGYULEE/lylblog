@@ -18,7 +18,7 @@ public class BaseEntity {
      * 创建时间
      */
     //将返回的cst时间格式转换为 yyyy-MM-dd HH:mm:ss
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd HH:mm:ss",timezone = "CMT")
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
