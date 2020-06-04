@@ -57,6 +57,7 @@
         </where>
         order by update_time desc
     </select>
+
     <select id="queryPageCondition" resultType="com.liyulong.blog.main.pojo.article.vo.ArticleVO">
         select <include refid="homeArticleColumn"/> , 0 as `type` from article
         <where>

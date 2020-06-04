@@ -111,8 +111,8 @@ public class Article extends BaseEntity implements Serializable {
     /**
      * 发布状态
      */
-    @ApiModelProperty(value = "发布状态",example = "0")
-    private Integer publish;
+    @ApiModelProperty(value = "发布状态")
+    private Boolean publish;
 
     /**
      * 是否置顶
