@@ -1,5 +1,6 @@
 package com.liyulong.blog.main.pojo.timeline;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -19,6 +20,7 @@ public class TimelinePost {
 
     private String postType;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
 }

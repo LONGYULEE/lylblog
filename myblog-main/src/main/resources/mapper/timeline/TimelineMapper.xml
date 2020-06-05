@@ -7,7 +7,7 @@
               select a.id,a.title,a.description,a.create_time,'article' as postType
               from article a
               where DATE_FORMAT(a.create_time,'%Y')=#{year} and DATE_FORMAT(a.create_time,'%m')=#{month} and a.publish = 1
-              )
+              ) as finalData
     </select>
 
 <!--    todo:别名问题-->
