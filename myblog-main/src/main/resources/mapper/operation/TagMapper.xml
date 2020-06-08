@@ -27,10 +27,10 @@
     </select>
 
     <select id="listTagVo" resultType="com.liyulong.blog.main.pojo.operation.vo.TagVO">
-        select t.name,sum(t.num) from (
-            select distinct t.type,t.name,(select count(*) from tag_link tl2 where tl2.tag_id = t.id) as num
-            from tag t left join tag_link tl1
-            on t.tag_id = tl1.tag_id and t.type = tl1.type) t
+        select t.name ,sum(t.num) as linkNum from (
+          select distinct t.type, t.name, (select count(*) from tag_link tl2 where tl2.tag_id = t.id) as num
+          from tag t
+          left join tag_link tl on t.id = tl.tag_id and t.type = tl.type) t
         group by t.name
     </select>
 

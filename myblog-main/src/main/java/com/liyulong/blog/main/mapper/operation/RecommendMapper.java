@@ -18,5 +18,21 @@ import java.util.List;
 @Mapper
 public interface RecommendMapper extends BaseMapper<Recommend> {
 
+    /**
+     * 获取推荐文章列表
+     * @return
+     */
     List<RecommendVO> listSeclect();
+
+    /**
+     * 获取推荐列表
+     * @return
+     */
+    List<RecommendVO> listRecommendVo();
+
+    /**
+     * 获取最热列表
+     * @return
+     */
+    List<RecommendVO> listHotRead();
 }

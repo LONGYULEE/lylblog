@@ -6,12 +6,14 @@ import io.swagger.annotations.ApiKeyAuthDefinition;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.Date;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@ToString(callSuper = true)
 public class RecommendVO extends Recommend {
 
     private static final long serialVersionUID = -5372740217231042602L;
