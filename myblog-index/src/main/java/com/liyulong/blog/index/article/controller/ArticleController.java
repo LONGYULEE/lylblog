@@ -1,6 +1,8 @@
 package com.liyulong.blog.index.article.controller;
 
 import com.liyulong.blog.index.article.service.ArticleService;
+import com.liyulong.blog.index.common.annotation.LogLike;
+import com.liyulong.blog.index.common.annotation.LogView;
 import com.liyulong.blog.main.common.constant.RedisCacheNames;
 import com.liyulong.blog.main.common.result.Result;
 import com.liyulong.blog.main.common.result.ResultUtil;
@@ -23,14 +25,14 @@ public class ArticleController {
     private ArticleService articleService;
 
     @GetMapping("/article/{articleId}")
-//    @LogView(type = "article")
+    @LogView(type = "article")
     public Result getArticle(@PathVariable Integer articleId){
         ArticleVO article = articleService.getArticleVo(articleId);
         return ResultUtil.success(article);
     }
 
     @PutMapping("/article/like/{id}")
-//    @LogLike(type = "article")
+    @LogLike(type = "article")
     public Result likeArticle(@PathVariable Integer id) {
         return ResultUtil.success();
     }

@@ -28,15 +28,17 @@ public class RecommendServiceImpl extends ServiceImpl<RecommendMapper, Recommend
 
     @Override
     public List<RecommendVO> listHotRead() {
-        return null;
+        List<RecommendVO> hotReadList =this.baseMapper.listHotRead();
+        getRecommendList(hotReadList);
+        hotReadList.get(0).setTop(true);
+        return hotReadList;
     }
 
     private List<RecommendVO> getRecommendList(List<RecommendVO> recommendVOList){
         recommendVOList.forEach(recommendVO -> {
             try {
                 ArticleVO simpleArticleVo = articleService.getSimpleArticleVo(recommendVO.getLinkId());
-                //todo: copyProperties没有将 simpleArticleVo 拷贝到 recommendVO 中去
-                BeanUtils.copyProperties(simpleArticleVo,recommendVO);
+                BeanUtils.copyProperties(recommendVO,simpleArticleVo);
                 recommendVO.setUrlType("article");
             } catch (Exception e) {
                 e.printStackTrace();
