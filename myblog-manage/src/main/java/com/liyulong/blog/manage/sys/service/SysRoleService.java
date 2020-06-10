@@ -50,4 +50,5 @@ public interface SysRoleService extends IService<SysRole> {
 
     void deleteByIds(Integer[] roleId) throws Exception;
 
+    SysRole getRoleById(Integer roleId);
 }

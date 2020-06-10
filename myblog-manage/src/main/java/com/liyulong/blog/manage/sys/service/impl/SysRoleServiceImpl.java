@@ -47,13 +47,13 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void createRole(SysRole role) {
+        role.setCreateUserId(UserContext.getCurrentUser().getUserId());
         Integer count = baseMapper.selectCount(new QueryWrapper<SysRole>().lambda().eq(SysRole::getRoleName, role.getRoleName()));
         if(count != 0){
             throw new MyException("已存在该角色");
         }
         //此处抛出错误，回滚事务
         checkPrems(role);
-        role.setCreateUserId(UserContext.getCurrentUser().getUserId());
         //保存角色
         baseMapper.insert(role);
         //保存角色与菜单关系
@@ -66,7 +66,6 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         baseMapper.updateById(role);
         //此处抛出错误，回滚事务
         checkPrems(role);
-        role.setCreateUserId(UserContext.getCurrentUser().getUserId());
         //保存角色与菜单关系
         roleMenuService.saveOrUpdate(role.getRoleId(),role.getMenuIdList());
     }
@@ -98,6 +97,19 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             throw new Exception("不能删除管理员账户");
         }
         baseMapper.deleteBatchIds(Arrays.asList(roleId));
+    }
+
+    /**
+     * 获取 role 和 menuIdList
+     * @param roleId
+     * @return
+     */
+    @Override
+    public SysRole getRoleById(Integer roleId) {
+        List<Integer> menuIdList = roleMenuService.queryMenuIdList(roleId);
+        SysRole role = this.getById(roleId);
+        role.setMenuIdList(menuIdList);
+        return role;
     }
 
     /**

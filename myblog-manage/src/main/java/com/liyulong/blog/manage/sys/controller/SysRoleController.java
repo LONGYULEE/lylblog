@@ -1,6 +1,7 @@
 package com.liyulong.blog.manage.sys.controller;
 
 
+import com.liyulong.blog.main.common.util.PageUtils;
 import com.liyulong.blog.manage.sys.service.SysRoleService;
 import com.liyulong.blog.main.common.context.UserContext;
 import com.liyulong.blog.main.common.result.Result;
@@ -51,7 +52,8 @@ public class SysRoleController {
     @PostMapping("/update")
     public Result updateRole(@RequestBody SysRole role){
         ValidatorUtils.validateEntity(role);
-        roleService.updateById(role);
+        role.setCreateUserId(UserContext.getUserId());
+        roleService.updateRole(role);
         return ResultUtil.success();
     }
 
@@ -60,9 +62,9 @@ public class SysRoleController {
      * @param roleIds
      * @return
      */
-    @DeleteMapping("/deleteByIds")
+    @DeleteMapping("/delete")
     @RequiresPermissions("sys:role:delete")
-    public Result deleteRole(@RequestParam Integer[] roleIds) {
+    public Result deleteRole(@RequestBody Integer[] roleIds) {
         try {
             roleService.deleteByIds(roleIds);
         } catch (Exception e) {
@@ -78,7 +80,20 @@ public class SysRoleController {
     @GetMapping("/list")
     @RequiresPermissions("sys:role:list")
     public Result getRoleListByPage(@RequestParam Map<String,Object> map){
-        return ResultUtil.success(roleService.queryRoleByPage(map));
+        PageUtils roleByPage = roleService.queryRoleByPage(map);
+        return ResultUtil.success(roleByPage);
+    }
+
+    /**
+     * 查询单条的角色信息
+     * @param roleId
+     * @return
+     */
+    @GetMapping("/info/{roleId}")
+    @RequiresPermissions("sys:role:info")
+    public Result getInfo(@PathVariable("roleId") Integer roleId){
+        SysRole role = roleService.getRoleById(roleId);
+        return ResultUtil.success(role);
     }
 
     @GetMapping("/select")
