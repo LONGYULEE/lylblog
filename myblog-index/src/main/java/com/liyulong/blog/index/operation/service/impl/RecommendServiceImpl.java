@@ -38,6 +38,7 @@ public class RecommendServiceImpl extends ServiceImpl<RecommendMapper, Recommend
         recommendVOList.forEach(recommendVO -> {
             try {
                 ArticleVO simpleArticleVo = articleService.getSimpleArticleVo(recommendVO.getLinkId());
+                //spring 和 common 的 copyProperties copy是相反的
                 BeanUtils.copyProperties(recommendVO,simpleArticleVo);
                 recommendVO.setUrlType("article");
             } catch (Exception e) {
