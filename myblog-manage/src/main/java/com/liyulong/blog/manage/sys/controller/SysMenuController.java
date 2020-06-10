@@ -86,9 +86,9 @@ public class SysMenuController {
      * @param menuId
      * @return
      */
-    @GetMapping("/info")
+    @GetMapping("/info/{menuId}")
     @RequiresPermissions("sys:menu:info")
-    public Result info(@RequestParam Integer menuId){
+    public Result info(@PathVariable("menuId") Integer menuId){
         SysMenu menu = menuService.getById(menuId);
         return ResultUtil.success(menu);
     }
@@ -112,7 +112,7 @@ public class SysMenuController {
      * @param menu
      * @return
      */
-    @PostMapping("/update")
+    @PutMapping("/update")
     @RequiresPermissions("sys:menu:update")
     public Result update(@RequestBody SysMenu menu){
         verifyForm(menu);
@@ -125,9 +125,9 @@ public class SysMenuController {
      * @param menuId
      * @return
      */
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{menuId}")
     @RequiresPermissions("sys:menu:delete")
-    public Result delete(@RequestParam Integer menuId){
+    public Result delete(@PathVariable("menuId") Integer menuId){
         if(menuId <= 29){
             return ResultUtil.failure("系统菜单，不能删除");
         }

@@ -6,6 +6,7 @@ import com.liyulong.blog.manage.sys.service.SysRoleMenuService;
 import com.liyulong.blog.manage.sys.service.SysUserService;
 import com.liyulong.blog.main.mapper.sys.SysMenuMapper;
 import com.liyulong.blog.main.pojo.sys.SysMenu;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -89,8 +90,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public void delete(Integer menuId) {
+        //删除菜单
+        baseMapper.deleteById(menuId);
+        //删除菜单与角色关联
         Map<String,Object> map = new HashMap<>();
-        map.put("menuId",menuId);
+        map.put("menu_id",menuId);
         roleMenuService.removeByMap(map);
     }
 

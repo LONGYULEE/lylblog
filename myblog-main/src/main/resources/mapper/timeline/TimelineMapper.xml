@@ -10,7 +10,6 @@
               ) as finalData
     </select>
 
-<!--    todo:别名问题-->
     <select id="listTimeline" resultType="com.liyulong.blog.main.pojo.timeline.Timeline">
         select t.year,count(t.year) as `count` from (
                       select a.id,a.title,a.description,a.create_time,DATE_FORMAT(a.create_time,'%Y') as year
