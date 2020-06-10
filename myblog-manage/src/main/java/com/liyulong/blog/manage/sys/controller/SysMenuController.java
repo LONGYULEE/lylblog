@@ -63,7 +63,11 @@ public class SysMenuController {
         return ResultUtil.success(menuList);
     }
 
-    //todo
+    /**
+     * 选择菜单(添加、修改菜单)
+     */
+    @GetMapping("/select")
+    @RequiresPermissions("sys:menu:select")
     public Result select(){
         //查询列表数据
         List<SysMenu> menuList = menuService.queryNotButtonList();

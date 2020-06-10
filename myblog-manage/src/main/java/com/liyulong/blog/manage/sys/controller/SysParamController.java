@@ -56,9 +56,9 @@ public class SysParamController {
      * @param id
      * @return
      */
-    @GetMapping("/info")
+    @GetMapping("/info/{id}")
     @RequiresPermissions("sys:param:info")
-    public Result info(@RequestParam String id){
+    public Result info(@PathVariable("id") String id){
         SysParam param = paramService.getById(id);
         return ResultUtil.success(param);
     }
@@ -81,7 +81,7 @@ public class SysParamController {
      * @param param
      * @return
      */
-    @PostMapping("/update")
+    @PutMapping("/update")
     @RequiresPermissions("sys:param:update")
     public Result update(@RequestBody SysParam param){
         ValidatorUtils.validateEntity(param);
@@ -93,9 +93,9 @@ public class SysParamController {
      * 批量删除系统参数
      * @return
      */
-    @DeleteMapping("/delte")
+    @DeleteMapping("/delete")
     @RequiresPermissions("sys:param:delete")
-    public Result delete(String[] ids){
+    public Result delete(@RequestBody String[] ids){
         paramService.removeByIds(Arrays.asList(ids));
         return ResultUtil.success();
     }
