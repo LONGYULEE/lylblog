@@ -87,7 +87,7 @@ public class SysRoleController {
         Map<String,Object> map = new HashMap<>();
         //如果不是管理员只能查询自己创建的角色列表
         if(UserContext.getUserId() == 1){
-            map.put("createUserId",UserContext.getUserId());
+            map.put("create_user_id",UserContext.getUserId());
         }
         Collection<SysRole> roleCollection = roleService.listByMap(map);
         return ResultUtil.success(roleCollection);

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liyulong.blog.manage.sys.service.SysRoleService;
+import com.liyulong.blog.manage.sys.service.SysUserRoleService;
 import com.liyulong.blog.manage.sys.service.SysUserService;
 import com.liyulong.blog.main.common.context.UserContext;
 import com.liyulong.blog.main.common.exception.MyException;
@@ -47,6 +48,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Lazy
     private SysRoleService sysRoleService;
 
+    @Autowired
+    private SysUserRoleService userRoleService;
+
     @Override
     public List<Integer> queryAllMenuId(Integer userId) {
         return baseMapper.queryAllMenuId(userId);
@@ -81,7 +85,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public void deleteBatch(Integer[] userIds) {
-        //删除用户与角色关联 todo
+        //删除用户与角色关联
+        userRoleService.deleteBatchByUserId(userIds);
         baseMapper.deleteBatchIds(Arrays.asList(userIds));
         sysRoleService.deleteBatchIds(userIds);
     }
@@ -106,6 +111,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             throw new MyException("邮箱重复");
         }
         baseMapper.insert(user);
+
+        //保存用户与角色对应关系
+        userRoleService.saveOrUpdate(user.getUserId(),user.getRoleIdList());
     }
 
     @Override

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -98,6 +99,22 @@ public class SysUserController {
         map.put("avatar",user.getAvatar());
         map.put("token",UserContext.getCurrentUser().getToken());
         return ResultUtil.success(map);
+    }
+
+    /**
+     * 通过id查询单个用户信息
+     * @param userId
+     * @return
+     */
+    @GetMapping("/info/{userId}")
+    @RequiresPermissions("sys:user:info")
+    public Result info(@PathVariable(name = "userId") Integer userId){
+        SysUser user = userService.getById(userId);
+
+        //获取角色信息
+        List<Integer> roleList = userRoleService.queryRoleIdList(userId);
+        user.setRoleIdList(roleList);
+        return ResultUtil.success(user);
     }
 
     /**
