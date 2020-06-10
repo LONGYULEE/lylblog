@@ -53,7 +53,7 @@ public class RecommendController {
 
     @GetMapping("select")
     @RequiresPermissions("operation:recommend:list")
-    public Result select(@RequestParam(value = "id") String id){
+    public Result select(){
         List<RecommendVO> list = recommendService.listSelect();
         return ResultUtil.success(list);
     }
@@ -63,9 +63,9 @@ public class RecommendController {
      * @param recommendId
      * @return
      */
-    @GetMapping("info")
+    @GetMapping("info/{recommendId}")
     @RequiresPermissions("operation:recommend:info")
-    public Result info(@RequestParam(value = "recommendId") String recommendId){
+    public Result info(@PathVariable("recommendId") String recommendId){
         Recommend recommend = recommendService.getById(recommendId);
         return ResultUtil.success(recommend);
     }
