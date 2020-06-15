@@ -3,7 +3,7 @@ server:
   port: 8080
 #  项目路径
   servlet:
-    context-path: /myblog
+    context-path: /lylblog
 
 spring:
   profiles:
