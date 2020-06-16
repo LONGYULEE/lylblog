@@ -28,5 +28,3 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     #关闭二级缓存
     cache-enabled: false
-    #打印sql
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

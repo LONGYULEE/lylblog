@@ -66,3 +66,10 @@ spring:
     port: 5672
     username: guest
     password: guest
+mybatis-plus:
+#
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    开发环境刷新mapper
+  global-config:
+    refresh: true
