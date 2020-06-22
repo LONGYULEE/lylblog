@@ -79,7 +79,7 @@ public class SysUserController {
      */
     @PostMapping("/updateUser")
     @RequiresPermissions("sys:user:update")
-    public Result update(SysUser user){
+    public Result update(@RequestBody SysUser user){
         ValidatorUtils.validateEntity(user, UpdateGroup.class);
         user.setCreateUserId(UserContext.getCurrentUser().getUserId());
         userService.updateById(user);
