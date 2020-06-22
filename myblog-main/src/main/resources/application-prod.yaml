@@ -62,7 +62,7 @@ spring:
         min-idle: 5 #连接池最小空闲连接
   # rabbitMQ配置
   rabbitmq:
-    host: 127.0.0.1
+    host: 172.27.0.7
     port: 5672
     username: guest
     password: guest
