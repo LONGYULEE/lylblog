@@ -43,6 +43,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
 
     @Override
     public List<Tag> listByLinkId(Integer linkId, Integer type) {
+        System.out.println(baseMapper.listByLinkId(linkId,type));
         return baseMapper.listByLinkId(linkId,type);
     }
 
@@ -53,7 +54,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
                     if (tag.getId() == null) {
                         this.baseMapper.insert(tag);
                     }
-                    TagLink tagLink = new TagLink(linkId, tag.getId(), type);
+                    TagLink tagLink = new TagLink(tag.getId(),linkId , type);
                     tagLinkMapper.insert(tagLink);
                 }));
     }

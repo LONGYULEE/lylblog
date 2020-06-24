@@ -46,7 +46,8 @@ public class QiNiuUtil{
     public static String getUpToken() {
         StringMap putPolicy = new StringMap();
         long expireSeconds = 3600;
-        putPolicy.put("returnBody", "{\"key\":\"$(key)\",\"hash\":\"$(etag)\",\"bucket\":\"$(bucket)\",\"fsize\":$(fsize)}");
+        putPolicy.put("returnBody", "{\"key\":\"$(key)\",\"hash\":\"$(etag)\",\"bucket\":\"$(bucket)\",\"fsize\":$" +
+                "(fsize),\"code\":\"2000\"}");
         return getAuth().uploadToken(BUCKET, null, expireSeconds, putPolicy);
     }
 
