@@ -34,19 +34,17 @@ public interface SysUserService extends IService<SysUser> {
     PageUtils queryPage(Map<String,Object> map);
 
     /**
-     * 更新密码
-     * @param userId
-     * @param password
-     * @param newPassword
-     * @return
-     */
-    boolean updatePassword(Integer userId,String password,String newPassword);
-
-    /**
      * 批量删除用户
      * @param userIds
      */
     void deleteBatch(Integer[] userIds);
+
+    /**
+     * 获取更新用户加密后的密码
+     * @param user 用户
+     * @return
+     */
+    String getUpdatePassword(SysUser user);
 
     /**
      * 添加用户

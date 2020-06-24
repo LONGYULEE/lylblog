@@ -4,6 +4,7 @@ import com.liylong.blog.portal.MyblogApplication;
 import com.liyulong.blog.main.common.util.PageUtils;
 import com.liyulong.blog.main.pojo.article.vo.ArticleVO;
 import lombok.experimental.Accessors;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,12 @@ public class ArticleServiceTest {
         Map<String,Object> map = new HashMap<>();
         PageUtils utils = articleService.queryPageCondition(map);
         System.out.println(utils);
+    }
+
+
+    @Test
+    public void getScret(){
+        Md5Hash md5Hash = new Md5Hash("password","salt",2);
+        System.out.println(md5Hash.toString());
     }
 }

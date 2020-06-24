@@ -15,6 +15,7 @@ import com.liyulong.blog.main.common.util.Query;
 import com.liyulong.blog.main.mapper.sys.SysUserMapper;
 import com.liyulong.blog.main.pojo.sys.SysRole;
 import com.liyulong.blog.main.pojo.sys.SysUser;
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -51,6 +52,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Autowired
     private SysUserRoleService userRoleService;
 
+    @Autowired
+    private SysUserMapper userMapper;
+
     @Override
     public List<Integer> queryAllMenuId(Integer userId) {
         return baseMapper.queryAllMenuId(userId);
@@ -75,20 +79,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public boolean updatePassword(Integer userId, String password, String newPassword) {
-        SysUser user = new SysUser();
-        user.setPassword(newPassword);
-        return this.update(user,new UpdateWrapper<SysUser>().lambda()
-                .eq(SysUser::getUserId,userId)
-                .eq(SysUser::getPassword,password));
-    }
-
-    @Override
     public void deleteBatch(Integer[] userIds) {
         //删除用户与角色关联
         userRoleService.deleteBatchByUserId(userIds);
         baseMapper.deleteBatchIds(Arrays.asList(userIds));
         sysRoleService.deleteBatchIds(userIds);
+    }
+
+    @Override
+    public String getUpdatePassword(SysUser user) {
+        //通过要修改的用户，查询盐值
+        SysUser user1 = userMapper.selectById(user.getUserId());
+        return encryptPassword(user.getPassword(),user1.getSalt());
     }
 
     @Override

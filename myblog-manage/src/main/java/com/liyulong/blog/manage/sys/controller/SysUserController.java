@@ -82,6 +82,7 @@ public class SysUserController {
     public Result update(@RequestBody SysUser user){
         ValidatorUtils.validateEntity(user, UpdateGroup.class);
         user.setCreateUserId(UserContext.getCurrentUser().getUserId());
+        user.setPassword(userService.getUpdatePassword(user));
         userService.updateById(user);
         return ResultUtil.success();
     }
@@ -128,28 +129,4 @@ public class SysUserController {
         return ResultUtil.success(userService.queryPage(map));
     }
 
-    /**
-     * 更新密码
-     * @param oldPass
-     * @param newPass
-     * @return
-     */
-    @GetMapping("/updatePassword")
-    public Result updatePassword(@RequestParam("oldPass") String oldPass,
-                                 @RequestParam("newPass") String newPass,
-                                 @RequestParam("userId") Integer userId){
-        //从数据库查询用户
-        SysUser user = userService.getById(userId);
-        if(user == null){
-            throw new MyException("用户不存在");
-        }
-        //加密旧密码进行比对
-        String oldPassword = new Md5Hash(oldPass,user.getSalt(),2).toString();
-        if(!oldPassword.equalsIgnoreCase(user.getPassword())){
-            throw new MyException("原密码不正确");
-        }
-        String newPssword = new Md5Hash(newPass,user.getSalt(),2).toString();
-        userService.updatePassword(userId, oldPassword, newPssword);
-        return ResultUtil.success();
-    }
 }
