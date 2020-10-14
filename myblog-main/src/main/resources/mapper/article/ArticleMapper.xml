@@ -55,7 +55,7 @@
                 and title like concat('%',#{params.title},'%')
             </if>
         </where>
-        order by update_time desc
+        order by create_time desc
     </select>
 
     <select id="queryPageCondition" resultType="com.liyulong.blog.main.pojo.article.vo.ArticleVO">
