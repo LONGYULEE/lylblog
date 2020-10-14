@@ -1,6 +1,8 @@
 package com.liyulong.blog.main.pojo.article;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.liyulong.blog.main.common.mybatisfill.BaseEntity;
@@ -53,11 +55,13 @@ public class Article extends BaseEntity implements Serializable {
      * 文章描述
      */
     @ApiModelProperty(value = "文章描述")
+    @TableField(strategy = FieldStrategy.IGNORED)
     private String description;
 
     /**
      * 文章作者
      */
+    @TableField(strategy = FieldStrategy.IGNORED)
     @ApiModelProperty(value = "文章作者")
     private String author;
 
