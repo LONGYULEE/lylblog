@@ -9,6 +9,7 @@ import com.liyulong.blog.main.common.util.Query;
 import com.liyulong.blog.main.mapper.article.ArticleMapper;
 import com.liyulong.blog.main.pojo.article.Article;
 import com.liyulong.blog.main.pojo.article.vo.ArticleVO;
+import com.liyulong.blog.main.pojo.operation.Tag;
 import com.liyulong.blog.manage.operation.service.TagService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public PageUtils queryPageCondition(Map<String, Object> params) {
         Page<ArticleVO> page = new Query<ArticleVO>(params).getPage();
         List<ArticleVO> articleList = baseMapper.queryPageCondition(page, params);
+        articleList.forEach(item -> {
+            List<Tag> tags = tagService.listByLinkId(item.getId(), ModuleEnum.ARTICLE.getValue());
+            item.setTagList(tags);
+        });
         // 封装ArticleVo
         page.setRecords(articleList);
         return new PageUtils(page);
