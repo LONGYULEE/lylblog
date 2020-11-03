@@ -5,6 +5,7 @@ import com.liyulong.blog.main.common.constant.RedisCacheNames;
 import com.liyulong.blog.main.common.result.Result;
 import com.liyulong.blog.main.common.result.ResultUtil;
 import com.liyulong.blog.main.pojo.operation.Category;
+import com.liyulong.blog.main.pojo.operation.Number;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,12 @@ public class CategoryController {
     public Result listCategory(@RequestParam Map<String,Object> params) {
         List<Category> categoryList = categoryService.listCategory(params);
         return ResultUtil.success(categoryList);
+    }
+
+    @GetMapping("/getCategoyNum")
+    public Result getCategoryNumber(){
+        Number number = categoryService.getNumbers();
+        return ResultUtil.success(number);
     }
 
 }

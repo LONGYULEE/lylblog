@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liyulong.blog.main.mapper.operation.NumberMapper">
+
+    <resultMap id="BaseResultMap" type="com.liyulong.blog.main.pojo.operation.Number">
+        <result column="tagNum" property="tagNum" />
+        <result column="categoryNum" property="categoryNum" />
+        <result column="articleNum" property="articleNum" />
+    </resultMap>
+
+    <select id="getNumbers" resultMap="BaseResultMap">
+        select a.num1 articleNum,c.num2 categoryNum,t.num3 tagNum from
+            (select count(*) num1 from article) a,
+            (select count(*) num2 from category) c,
+            (select count(*) num3 from tag) t
+    </select>
+</mapper>
