@@ -15,6 +15,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -52,4 +54,26 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         articleVo.setTagList(tagService.listByLinkId(articleId,ModuleEnum.ARTICLE.getValue()));
         return articleVo;
     }
+
+    @Override
+    public List<String> getCategoryId() {
+        List<String> categoryId = baseMapper.getCategoryId();
+        List<String> list = new ArrayList<>();
+        categoryId.forEach(item -> {
+            if(item != null){
+                String[] split = item.split(",");
+                list.addAll(Arrays.asList(split));
+            }else {
+                list.add(null);
+            }
+        });
+        return list;
+    }
+
+    @Override
+    public PageUtils getArticleByCategoyId(String categoryId) {
+
+        return null;
+    }
+
 }

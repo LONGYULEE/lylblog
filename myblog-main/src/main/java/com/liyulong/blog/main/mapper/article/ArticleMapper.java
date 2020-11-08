@@ -63,4 +63,6 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @return
      */
     int checkByCategory(Integer categoryId);
+
+    List<String> getCategoryId();
 }

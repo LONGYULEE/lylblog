@@ -44,4 +44,10 @@ public class ArticleController {
         return ResultUtil.success(page);
     }
 
+    @GetMapping("/getArticleByCategoyId")
+//    @Cacheable
+    public Result getArticleByCategoyId(String categoryId){
+        PageUtils page = articleService.getArticleByCategoyId(categoryId);
+        return ResultUtil.success();
+    }
 }

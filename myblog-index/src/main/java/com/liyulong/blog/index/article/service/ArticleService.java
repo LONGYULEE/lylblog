@@ -5,6 +5,7 @@ import com.liyulong.blog.main.common.util.PageUtils;
 import com.liyulong.blog.main.pojo.article.Article;
 import com.liyulong.blog.main.pojo.article.vo.ArticleVO;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ArticleService extends IService<Article> {
@@ -30,4 +31,11 @@ public interface ArticleService extends IService<Article> {
      */
     ArticleVO getSimpleArticleVo(Integer articleId);
 
+    /**
+     * 获取文章的分类id
+     * @return
+     */
+    List<String> getCategoryId();
+
+    PageUtils getArticleByCategoyId(String categoryId);
 }

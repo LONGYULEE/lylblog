@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,13 @@ public class CategoryController {
     public Result getCategoryNumber(){
         Number number = categoryService.getNumbers();
         return ResultUtil.success(number);
+    }
+
+    @GetMapping("/getCategoryNumberAndName")
+//    @Cacheable
+    public Result getCategoryNumberAndName(){
+        HashMap<String, Integer> map = categoryService.getNumberAndName();
+        return ResultUtil.success(map);
     }
 
 }

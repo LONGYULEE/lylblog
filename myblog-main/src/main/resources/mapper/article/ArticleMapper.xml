@@ -82,5 +82,8 @@
     <select id="getSimpleArticleVo" resultType="com.liyulong.blog.main.pojo.article.vo.ArticleVO">
         select <include refid="homeArticleColumn"/> from article where id = #{id}
     </select>
+    <select id="getCategoryId" resultType="java.lang.String">
+        select category_id from article
+    </select>
 
 </mapper>
