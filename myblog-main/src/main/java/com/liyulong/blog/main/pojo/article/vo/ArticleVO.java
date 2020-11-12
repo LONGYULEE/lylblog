@@ -20,4 +20,10 @@ public class ArticleVO extends Article {
      * 所属标签
      */
     private List<Tag> tagList;
+
+    //上一篇
+    private Article pre;
+
+    //下一篇
+    private Article next;
 }

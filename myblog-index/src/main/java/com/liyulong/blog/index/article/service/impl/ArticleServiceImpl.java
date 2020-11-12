@@ -42,7 +42,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public ArticleVO getArticleVo(Integer articleId) {
         Article article = baseMapper.selectById(articleId);
+        Article nextById = baseMapper.getNextById(articleId);
+        Article preById = baseMapper.getPreById(articleId);
         ArticleVO articleVo = new ArticleVO();
+        articleVo.setNext(nextById);
+        articleVo.setPre(preById);
         BeanUtils.copyProperties(article,articleVo);
         articleVo.setTagList(tagService.listByLinkId(articleId, ModuleEnum.ARTICLE.getValue()));
         return articleVo;

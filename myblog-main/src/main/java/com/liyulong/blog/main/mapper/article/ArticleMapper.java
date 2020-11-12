@@ -65,4 +65,10 @@ public interface ArticleMapper extends BaseMapper<Article> {
     int checkByCategory(Integer categoryId);
 
     List<String> getCategoryId();
+
+    //获取上一片
+    Article getPreById(Integer articleId);
+
+    //获取下一篇
+    Article getNextById(Integer articleId);
 }

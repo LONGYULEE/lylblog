@@ -85,5 +85,11 @@
     <select id="getCategoryId" resultType="java.lang.String">
         select category_id from article
     </select>
+    <select id="getPreById" resultType="com.liyulong.blog.main.pojo.article.Article">
+        select id,title,description from article where id = (select max(id) from article where id &lt; #{articleId})
+    </select>
+    <select id="getNextById" resultType="com.liyulong.blog.main.pojo.article.Article">
+        select id,title,description from article where id = (select min(id) from article where id &gt; #{articleId})
+    </select>
 
 </mapper>
